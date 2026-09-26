@@ -1,0 +1,64 @@
+{
+  "district_name": "Darbhanga",
+  "state_name": "Bihar",
+  "country": "India",
+  "country_code": "IND",
+  "census_2011_code": "215",
+  "state_lgd_code": "10",
+  "headquarters": "Darbhanga",
+  "area_sq_km": 2279.0,
+  "bounding_box": {
+    "min_longitude": 85.6766766,
+    "min_latitude": 25.7195614,
+    "max_longitude": 86.4161211,
+    "max_latitude": 26.4464342
+  },
+  "subdivisions": [
+    "Darbhanga Sadar",
+    "Benipur",
+    "Biraul"
+  ],
+  "total_blocks_count": 18,
+  "pilot_monitored_clusters_count": 10,
+  "major_rivers": [
+    "Bagmati River",
+    "Kamala Balan River",
+    "Adhwara River System",
+    "Khiroi River",
+    "Kareh River"
+  ],
+  "topographical_classification": "North Bihar Indo-Gangetic Alluvial Plain, flat gradient (average slope 0.2% - 0.7%), elevation range 42m - 55m AMSL",
+  "flood_hazard_mechanisms": [
+    "Transboundary high-volume runoff from Bagmati and Kamala upper catchments in Nepal",
+    "Embankment breaches under extreme hydrodynamic pressure (e.g. Hayaghat, Biraul)",
+    "Backwater effect and chronic drainage congestion in natural saucer depressions (chaurs) such as Kusheshwar Asthan",
+    "Flash inundation along northern hill streams of the Adhwara system"
+  ],
+  "sources": {
+    "district_boundary": {
+      "provider": "OpenStreetMap",
+      "osm_id": 1568263,
+      "osm_type": "relation",
+      "license": "Open Data Commons Open Database License (ODbL) 1.0",
+      "attribution": "© OpenStreetMap contributors"
+    },
+    "elevation_data": {
+      "provider": "Copernicus DEM GLO-90m / SRTM via Open-Meteo Elevation API",
+      "license": "CC-BY 4.0",
+      "spatial_resolution": "90m"
+    },
+    "hydrological_data": {
+      "provider": "Central Water Commission (CWC), Ministry of Jal Shakti, Government of India",
+      "division": "Lower Ganga Basin Division / Middle Ganga Division III",
+      "key_gauges": [
+        {"station": "Hayaghat", "river": "Bagmati", "danger_level_m": 48.68, "warning_level_m": 47.68},
+        {"station": "Jhanjharpur", "river": "Kamala Balan", "danger_level_m": 50.00, "warning_level_m": 49.00},
+        {"station": "Kamtaul", "river": "Adhwara", "danger_level_m": 50.00, "warning_level_m": 49.00}
+      ]
+    },
+    "disaster_management_reports": {
+      "agency": "Bihar State Disaster Management Authority (BSDMA)",
+      "document": "District Disaster Management Plan (DDMP) Darbhanga & Flood Situation Reports (2020)"
+    }
+  }
+}

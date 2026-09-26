@@ -1,0 +1,252 @@
+{
+  "type": "FeatureCollection",
+  "name": "Darbhanga_Pilot_Operational_Clusters",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.911681, 26.0369841]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-HAY",
+        "village_name": "Hayaghat",
+        "block_name": "Hayaghat",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 46.0,
+        "slope_gradient_pct": 0.3,
+        "drainage_capacity_score": 0.15,
+        "soil_texture": "Fine silt alluvial",
+        "river_proximity_km": 0.4,
+        "nearest_river": "Bagmati River",
+        "dominant_crop": "Paddy & Makhana",
+        "crop_flood_susceptibility": 0.90,
+        "data_type": "REAL_PILOT",
+        "notes": "Bagmati River / CWC Railway Bridge gauge corridor. Severely breached in July 2020 flood."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.9942704, 26.0908399]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-BAH",
+        "village_name": "Bahadurpur",
+        "block_name": "Bahadurpur",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 45.0,
+        "slope_gradient_pct": 0.4,
+        "drainage_capacity_score": 0.20,
+        "soil_texture": "Clayey alluvial",
+        "river_proximity_km": 1.2,
+        "nearest_river": "Bagmati / Adhwara System",
+        "dominant_crop": "Paddy & Maize",
+        "crop_flood_susceptibility": 0.85,
+        "data_type": "REAL_PILOT",
+        "notes": "Low-lying floodplain adjacent to Darbhanga city; vulnerable to backwater inundation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.9465156, 26.2947183]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-KEO",
+        "village_name": "Keoti",
+        "block_name": "Keoti",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 54.0,
+        "slope_gradient_pct": 0.6,
+        "drainage_capacity_score": 0.35,
+        "soil_texture": "Sandy loam alluvial",
+        "river_proximity_km": 2.1,
+        "nearest_river": "Khiroi River",
+        "dominant_crop": "Paddy & Wheat",
+        "crop_flood_susceptibility": 0.75,
+        "data_type": "REAL_PILOT",
+        "notes": "Khiroi river catchment; NH-527C road link severed during July 2020 peak flood."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.7628401, 26.19149]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-SIN",
+        "village_name": "Singhwara",
+        "block_name": "Singhwara",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 48.0,
+        "slope_gradient_pct": 0.5,
+        "drainage_capacity_score": 0.30,
+        "soil_texture": "Loam alluvial",
+        "river_proximity_km": 2.8,
+        "nearest_river": "Khiroi / Western Basin",
+        "dominant_crop": "Paddy & Mustard",
+        "crop_flood_susceptibility": 0.75,
+        "data_type": "REAL_PILOT",
+        "notes": "Western flank bordering Muzaffarpur; moderate embankment overflow risk."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [86.1801131, 25.9565302]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-BIR",
+        "village_name": "Biraul",
+        "block_name": "Biraul",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 42.0,
+        "slope_gradient_pct": 0.2,
+        "drainage_capacity_score": 0.12,
+        "soil_texture": "Heavy clay alluvial (Chaur depression)",
+        "river_proximity_km": 0.9,
+        "nearest_river": "Kamala Balan River",
+        "dominant_crop": "Paddy & Makhana",
+        "crop_flood_susceptibility": 0.92,
+        "data_type": "REAL_PILOT",
+        "notes": "Kamala Balan lowlands; chronic severe waterlogging and chaur depression."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [86.2663573, 25.8301358]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-KUS",
+        "village_name": "Kusheshwar Asthan",
+        "block_name": "Kusheshwar Asthan",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 42.0,
+        "slope_gradient_pct": 0.2,
+        "drainage_capacity_score": 0.10,
+        "soil_texture": "Silty clay wetland soil",
+        "river_proximity_km": 0.5,
+        "nearest_river": "Kamala-Balan & Kareh Confluence",
+        "dominant_crop": "Paddy & Wetland fisheries",
+        "crop_flood_susceptibility": 0.95,
+        "data_type": "REAL_PILOT",
+        "notes": "Wetland basin / Kareh confluence; deep inundation lasting 30-45 days."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [86.1244902, 26.0753546]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-BEN",
+        "village_name": "Benipur",
+        "block_name": "Benipur",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 52.0,
+        "slope_gradient_pct": 0.5,
+        "drainage_capacity_score": 0.40,
+        "soil_texture": "Silt loam alluvial",
+        "river_proximity_km": 2.4,
+        "nearest_river": "Kamala Balan Right Canal",
+        "dominant_crop": "Paddy & Maize",
+        "crop_flood_susceptibility": 0.70,
+        "data_type": "REAL_PILOT",
+        "notes": "Intermediate terrace; moderate vulnerability with localized waterlogging pockets."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.7689679, 26.3563325]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-JAL",
+        "village_name": "Jale",
+        "block_name": "Jale",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 51.0,
+        "slope_gradient_pct": 0.7,
+        "drainage_capacity_score": 0.45,
+        "soil_texture": "Sandy loam alluvial",
+        "river_proximity_km": 1.6,
+        "nearest_river": "Adhwara Headwater Streams",
+        "dominant_crop": "Paddy & Vegetables",
+        "crop_flood_susceptibility": 0.65,
+        "data_type": "REAL_PILOT",
+        "notes": "Northern border near Sitamarhi; rapid onset flash runoff from Nepal foothills."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [86.1448686, 26.181456]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-MAN",
+        "village_name": "Manigachhi",
+        "block_name": "Manigachhi",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 50.0,
+        "slope_gradient_pct": 0.5,
+        "drainage_capacity_score": 0.40,
+        "soil_texture": "Loam alluvial",
+        "river_proximity_km": 3.1,
+        "nearest_river": "Kamala Overflow Tributary",
+        "dominant_crop": "Paddy & Pulses",
+        "crop_flood_susceptibility": 0.70,
+        "data_type": "REAL_PILOT",
+        "notes": "Central eastern agricultural belt; moderate drainage capacity."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.9068139, 26.1531114]
+      },
+      "properties": {
+        "village_id": "VIL-DAR-HAN",
+        "village_name": "Hanuman Nagar",
+        "block_name": "Hanuman Nagar",
+        "district": "Darbhanga",
+        "state": "Bihar",
+        "elevation_m": 52.0,
+        "slope_gradient_pct": 0.4,
+        "drainage_capacity_score": 0.25,
+        "soil_texture": "Silt clay loam",
+        "river_proximity_km": 1.5,
+        "nearest_river": "Bagmati Southern Loop",
+        "dominant_crop": "Paddy & Maize",
+        "crop_flood_susceptibility": 0.80,
+        "data_type": "REAL_PILOT",
+        "notes": "Near Bagmati embankment spillway; high flood risk when Bagmati swells above DL."
+      }
+    }
+  ]
+}

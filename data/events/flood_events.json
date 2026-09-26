@@ -1,0 +1,103 @@
+[
+  {
+    "event_id": "IND-BIH-2020-07",
+    "event_name": "July 2020 North Bihar Flood (Darbhanga District Embankment Breach & Inundation)",
+    "country": "India",
+    "state": "Bihar",
+    "district": "Darbhanga",
+    "event_type": "RIVERINE_AND_WATERLOGGING_FLOOD",
+    "status": "HISTORICAL_BENCHMARK",
+    "start_date": "2020-07-15",
+    "peak_date": "2020-07-24",
+    "end_date": "2020-08-05",
+    "timeline_snapshots": [
+      "2020-07-17",
+      "2020-07-19",
+      "2020-07-21",
+      "2020-07-23",
+      "2020-07-24",
+      "2020-07-27"
+    ],
+    "hydrological_context": {
+      "river_basins": ["Bagmati", "Kamala Balan", "Adhwara System", "Khiroi", "Kareh"],
+      "cwc_gauge_stations": [
+        {
+          "station_name": "Hayaghat",
+          "river": "Bagmati",
+          "warning_level_m": 47.68,
+          "danger_level_m": 48.68,
+          "highest_flood_level_m": 50.60,
+          "peak_water_level_recorded_m": 50.82,
+          "peak_date": "2020-07-25",
+          "water_level_above_danger_level_m": 2.14,
+          "impact_notes": "Surpassed all-time HFL (50.60m). Bridge No. 16/17 rail track submerged, halting East Central Railway train operations."
+        },
+        {
+          "station_name": "Jhanjharpur",
+          "river": "Kamala Balan",
+          "warning_level_m": 49.00,
+          "danger_level_m": 50.00,
+          "highest_flood_level_m": 52.85,
+          "peak_water_level_recorded_m": 52.45,
+          "peak_date": "2020-07-23",
+          "water_level_above_danger_level_m": 2.45,
+          "impact_notes": "Flowed 2.45m above Danger Level, exerting extreme hydrostatic pressure on downstream Biraul embankments."
+        },
+        {
+          "station_name": "Kamtaul",
+          "river": "Adhwara",
+          "warning_level_m": 49.00,
+          "danger_level_m": 50.00,
+          "highest_flood_level_m": 52.00,
+          "peak_water_level_recorded_m": 51.70,
+          "peak_date": "2020-07-24",
+          "water_level_above_danger_level_m": 1.70,
+          "impact_notes": "Adhwara system spilled into Keoti and Singhwara blocks."
+        }
+      ],
+      "major_breaches": [
+        "Bagmati Left Embankment breached near Dewasi (Hayaghat block)",
+        "Kamala Balan Right Embankment breached at Madanpur (Biraul block)",
+        "National Highway 527C submerged near Keoti blocking emergency relief",
+        "Samastipur-Darbhanga rail line tracks submerged at Hayaghat"
+      ]
+    },
+    "human_and_agricultural_impact": {
+      "affected_blocks_count": 14,
+      "modeled_pilot_clusters_count": 10,
+      "affected_population": 1450000,
+      "submerged_panchayats": 138,
+      "inundated_area_hectares": 82400.0,
+      "primary_crop_damaged": "Kharif Paddy (submerged during tillering stage)"
+    },
+    "remote_sensing_evidence": {
+      "satellite_provider": "ISRO / NRSC & ESA Copernicus",
+      "bhuvan_flood_maps": [
+        {"map_id": "NRSC/2020/22", "date": "2020-07-20", "phase": "Early Inundation Phase"},
+        {"map_id": "NRSC/2020/23", "date": "2020-07-24", "phase": "Peak Inundation Phase (82,400 ha inundated)"},
+        {"map_id": "NRSC/2020/24", "date": "2020-07-28", "phase": "Post-Peak Waterlogging & Spreading"}
+      ],
+      "sentinel_1_sar": {
+        "satellite": "Copernicus Sentinel-1A / Sentinel-1B",
+        "sensor": "C-band Synthetic Aperture Radar (SAR)",
+        "mode": "Interferometric Wide (IW) GRD",
+        "polarization": "VV + VH",
+        "relative_orbits": [121, 48],
+        "acquisitions": [
+          {"scene_date": "2020-07-11", "orbit": 121, "baseline_type": "PRE_FLOOD_BASELINE"},
+          {"scene_date": "2020-07-17", "orbit": 48, "baseline_type": "RISING_LIMB"},
+          {"scene_date": "2020-07-23", "orbit": 121, "baseline_type": "NEAR_PEAK_BREACH"},
+          {"scene_date": "2020-07-29", "orbit": 48, "baseline_type": "MAXIMUM_EXTENT"}
+        ],
+        "validation_status": "EVIDENCE_AVAILABLE_NOT_PROCESSED"
+      }
+    },
+    "citations": [
+      "Central Water Commission (CWC), Ministry of Jal Shakti: Daily Flood Bulletins (July 15 - August 5, 2020)",
+      "Bihar State Disaster Management Authority (BSDMA): Daily Flood Situation Reports (July 2020)",
+      "National Remote Sensing Centre (NRSC) / ISRO: Bhuvan Disaster Management Support Flood Inundation Maps 2020",
+      "India Meteorological Department (IMD): Daily District Rainfall Bulletins (July 2020)",
+      "East Central Railway (ECR) Press Releases: Suspension of Darbhanga-Samastipur Railway Section due to Track Submergence at Bridge 16 (24 July 2020)"
+    ]
+  }
+]
