@@ -89,3 +89,5 @@ Thumbs.db
 *.db
 uploads/
 data/uploads/
+.chrome-temp/
+*.tsbuildinfo

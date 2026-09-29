@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Smartphone,
   BarChart3,
+  MonitorPlay,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -156,6 +157,26 @@ export function Sidebar() {
             );
           })}
         </nav>
+
+        {/* Presentation Mode Trigger Button */}
+        <div className="pt-2 border-t border-slate-800/80">
+          <button
+            onClick={() => {
+              const current = localStorage.getItem('umbrella_presentation_active') === 'true';
+              localStorage.setItem('umbrella_presentation_active', current ? 'false' : 'true');
+              window.location.reload();
+            }}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-semibold bg-gradient-to-r from-sky-950/60 to-indigo-950/60 border border-sky-500/30 text-sky-300 hover:from-sky-900/60 hover:to-indigo-900/60 transition-all shadow-sm group"
+          >
+            <div className="flex items-center gap-2">
+              <MonitorPlay className="w-4 h-4 text-sky-400 group-hover:scale-110 transition-transform" />
+              <span>Presentation Mode</span>
+            </div>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-200">
+              11 Steps
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Bottom Footer Info */}

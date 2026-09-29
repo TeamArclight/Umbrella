@@ -59,6 +59,13 @@ export default function ActionsPage() {
         });
         return updated;
       });
+
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('modal') === 'true' && results.length > 0) {
+          setActiveModalVillage(results[0]);
+        }
+      }
     } catch (err) {
       console.error('Failed to load actions data:', err);
     } finally {

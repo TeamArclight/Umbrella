@@ -111,39 +111,37 @@ class ImpactEstimationEngine:
             )
 
         elif intervention_id == "portable-solar-dryer":
-            # 800 kg produce dried per year, preventing 12% wet spoilage
-            spoilage_kg = 800.0 * 0.12  # 96 kg
-            decay_ef = 1.15
-            avoided_t = round((spoilage_kg * decay_ef) / 1000.0, 2)  # ~0.11 tCO2e/yr
-            # Add electrical thermal drying displacement proxy (~0.74 tCO2e)
-            total_avoided = round(avoided_t + 0.74, 2)  # ~0.85 tCO2e/yr
+            # 800 kg produce dried per year, preventing 12% wet spoilage (96 kg saved)
+            spoilage_kg = 800.0 * 0.12  # 96.0 kg
+            decay_ef = 1.15  # kg CO2e / kg decayed biomass (FAO Food Wastage Footprint)
+            avoided_t = round((spoilage_kg * decay_ef) / 1000.0, 3)  # ~0.110 tCO2e/yr
 
             return EmissionsAvoidedEstimate(
-                methodology_id="UNFCCC-AMS-I.E-ALIGNED",
-                methodology_name="UNFCCC AMS-I.E / ICAR Post-Harvest Agricultural Spoilage Baseline",
-                baseline_emissions_tco2e_per_year=round(total_avoided, 2),
+                methodology_id="INDICATIVE-SOLAR-DRYING-PROXY",
+                methodology_name="Indicative Post-Harvest Food Loss Spoilage Reduction Proxy",
+                baseline_emissions_tco2e_per_year=avoided_t,
                 project_emissions_tco2e_per_year=0.0,
-                estimated_emissions_avoided_tco2e_per_year=round(total_avoided, 2),
+                estimated_emissions_avoided_tco2e_per_year=avoided_t,
                 unit="tCO2e/year",
-                activity_data={"annual_produce_dried_kg": 800.0, "moisture_reduction_pct": 12.0},
-                emission_factors={"spoilage_ef": decay_ef, "thermal_displacement_tco2e": 0.74},
+                activity_data={"annual_produce_dried_kg": 800.0, "spoilage_prevented_kg": spoilage_kg},
+                emission_factors={"biomass_decay_ef": decay_ef, "source": "FAO Food Wastage Footprint (2013)"},
             )
 
         elif intervention_id == "micro-drip-irrigation":
-            # 180 liters diesel saved via 60% pumping water reduction
+            # 180 liters diesel pumping fuel saved via 60% water conveyance efficiency
             diesel_saved_l = 180.0
-            diesel_ef = 2.68
-            avoided_t = round((diesel_saved_l * diesel_ef) / 1000.0, 2)  # ~0.48 tCO2e + 0.07 nitrous oxide proxy = 0.55 tCO2e
+            diesel_ef = 2.68  # kg CO2e per liter diesel (IPCC 2006 Volume 2 Energy)
+            avoided_t = round((diesel_saved_l * diesel_ef) / 1000.0, 3)  # 0.482 tCO2e/yr
 
             return EmissionsAvoidedEstimate(
-                methodology_id="ICAR-NABARD-2020",
-                methodology_name="ICAR/NABARD Micro-Irrigation Energy Efficiency Baseline (2020)",
-                baseline_emissions_tco2e_per_year=0.55,
+                methodology_id="INDICATIVE-PUMPING-EFFICIENCY-PROXY",
+                methodology_name="Indicative Agricultural Pumping Fuel Reduction Benchmark",
+                baseline_emissions_tco2e_per_year=avoided_t,
                 project_emissions_tco2e_per_year=0.0,
-                estimated_emissions_avoided_tco2e_per_year=0.55,
+                estimated_emissions_avoided_tco2e_per_year=avoided_t,
                 unit="tCO2e/year",
                 activity_data={"diesel_saved_liters": diesel_saved_l, "water_saving_pct": 60.0},
-                emission_factors={"diesel_ef": diesel_ef},
+                emission_factors={"diesel_ef_kgco2e_per_l": diesel_ef, "source": "IPCC 2006 Guidelines"},
             )
 
         return None

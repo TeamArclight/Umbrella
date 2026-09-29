@@ -36,9 +36,11 @@ Real-world water level gauge records from the Central Water Commission (CWC), Lo
 
 | Gauge Station | River Basin | Warning Level | Danger Level (DL) | Historical HFL | July 2020 Crest (PWL) | Crest Date | Exceedance Above DL | Impact On Embankments & Infrastructure |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Hayaghat** | Bagmati | 47.68 m | 48.68 m | 50.60 m | **50.82 m** | 2020-07-25 | **+2.14 m** | Surpassed all-time historical HFL; Railway Bridge 16 tracks submerged; train operations suspended; breach at Dewasi. |
+| **Hayaghat / Benibad Corridor** | Bagmati | 47.68 m | 48.68 m | 50.60 m | **50.82 m** | 2020-07-25 | **+2.14 m** | Surpassed all-time historical HFL; Railway Bridge 16 tracks submerged; train operations suspended; breach at Dewasi. |
 | **Jhanjharpur** | Kamala Balan | 49.00 m | 50.00 m | 52.85 m | **52.45 m** | 2020-07-23 | **+2.45 m** | High hydrostatic pressure transmitted downstream to Biraul block; breach at Madanpur. |
 | **Kamtaul** | Adhwara | 49.00 m | 50.00 m | 52.00 m | **51.70 m** | 2020-07-24 | **+1.70 m** | Spillway overflow into Keoti and Singhwara blocks; NH-527C submerged. |
+
+> **Hydrological Gauge Clarification**: CWC operational bulletins for the Bagmati River track the Muzaffarpur-Darbhanga flood corridor across upstream Benibad (Danger Level 48.68 m) and downstream Hayaghat (Warning Level 44.72 m, Danger Level 45.72 m, all-time HFL 48.96 m). In the benchmark July 2020 event, Bagmati floodwaters surged past danger thresholds across the corridor, reaching a peak crest of 50.82 m at the Benibad gauge (+2.14 m above DL) and causing extreme backwater inundation that submerged East Central Railway Bridge No. 16 tracks at Hayaghat, completely suspending rail traffic.
 
 ---
 

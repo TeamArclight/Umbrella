@@ -42,14 +42,17 @@ export interface TerrainAttributes {
 export interface PilotVillage {
   village_id: string;
   village_name: string;
-  subdivision: string;
+  subdivision?: string;
+  block_name?: string;
+  nearest_river?: string;
+  notes?: string;
   district: string;
   state: string;
   latitude: floatNumber;
   longitude: floatNumber;
-  monitored_since: string;
-  primary_crops: string[];
-  terrain: TerrainAttributes;
+  monitored_since?: string;
+  primary_crops?: string[];
+  terrain?: TerrainAttributes;
 }
 
 type floatNumber = number;

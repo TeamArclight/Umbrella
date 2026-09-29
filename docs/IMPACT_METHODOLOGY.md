@@ -18,35 +18,46 @@ Umbrella evaluates climate impact through two strictly separated tracks:
 Umbrella embeds two peer-reviewed, institutional methodologies:
 
 ```
-                            [ Resilience Intervention ]
-                                        │
-             ┌──────────────────────────┴──────────────────────────┐
-             ▼                                                     ▼
- [ UNFCCC AMS-I.A (Small-Scale) ]                       [ FAO Post-Harvest (2021) ]
- - Scope: Solar Pumping & Drying                        - Scope: Hermetic Silos & Drying
- - Baseline: Small diesel pumps & grid                  - Baseline: 15% post-harvest grain loss
- - Formula: Liters saved × 2.68 kg CO₂e/L               - Formula: kg grain saved × 0.85 kg CO₂e/kg
- - Source: IPCC EFDB & CEA India v19                    - Source: FAO & IRRI Cradle-to-Farmgate LCA
+                                 [ Resilience Intervention ]
+                                              │
+         ┌────────────────────────┬───────────┴───────────┬────────────────────────┐
+         ▼                        ▼                       ▼                        ▼
+ [ UNFCCC AMS-I.A Proxy ]  [ FAO Post-Harvest ]   [ Solar Drying Proxy ]   [ Micro-Drip Benchmark ]
+ - Solar Irrigation Pump   - Hermetic Grain Silo  - Portable Solar Dryer   - Micro-Drip Irrigation
+ - 650 L diesel displaced  - 240 kg grain saved   - 96 kg spoilage saved   - 180 L diesel saved
+ - 1.74 tCO₂e/yr           - 0.28 tCO₂e/yr        - 0.11 tCO₂e/yr          - 0.48 tCO₂e/yr
+ - IPCC EFDB (2.68 kg/L)   - FAO Spoilage (1.15)  - FAO Biomass (1.15)     - IPCC EFDB (2.68 kg/L)
 ```
 
-### 2.1 UNFCCC AMS-I.A: Solar Irrigation & Solar Drying
-- **Scope**: Displacement of fossil-fuel combustion (diesel irrigation pumps) and non-renewable grid electricity with stand-alone solar photovoltaic and thermal systems.
-- **Formulas**:
-  - **Diesel Displacement**:
-    $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{\text{Diesel Displaced (liters/yr)} \times EF_{\text{diesel}}}{1000}$$
-    Where $EF_{\text{diesel}} = 2.68 \text{ kg CO}_2\text{e/liter}$ (IPCC Guidelines for National Greenhouse Gas Inventories).
-  - **Grid Electricity Displacement**:
-    $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{\text{Electricity Generated (kWh/yr)} \times EF_{\text{grid}}}{1000}$$
-    Where $EF_{\text{grid}} = 0.71 \text{ kg CO}_2\text{e/kWh}$ (Central Electricity Authority of India, Eastern Regional Grid CO2 Baseline Database v19).
+> **Pure Adaptation Non-Fabrication Rule**: Non-mitigation interventions—specifically **Raised Community Livestock Shelters** and **Drainage Culverts & Bunding**—are labeled `mitigation_supported: false` and `NOT_APPLICABLE`. Umbrella explicitly refuses to fabricate synthetic carbon offsets for pure climate adaptation assets.
 
-### 2.2 FAO Post-Harvest Loss Avoidance (2021)
-- **Scope**: Reduction of qualitative and quantitative grain storage losses due to monsoon flood inundation, humidity, and weevil infestation using hermetic grain silos.
-- **Baseline**: In flood-prone North Bihar districts (e.g., Darbhanga), open bamboo/mud granaries suffer 12–20% post-harvest spoilage during monsoon flooding (FAO / ICAR baseline avg 15%).
+### 2.1 Solar Irrigation Pump (UNFCCC AMS-I.A Methodology-Informed Proxy)
+- **Scope**: Small-scale diesel pump replacement with 2–3 HP solar photovoltaic array.
+- **Activity Data**: 650 liters diesel displaced per year (typical operational load for 1–2 hectare smallholder irrigation in North Bihar).
 - **Formula**:
-  $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{\text{Grain Protected (kg/yr)} \times \Delta\text{Loss Rate} \times EF_{\text{grain}}}{1000}$$
-  Where:
-  - $\Delta\text{Loss Rate} = 0.15$ (15% loss prevented)
-  - $EF_{\text{grain}} = 0.85 \text{ kg CO}_2\text{e/kg paddy rice}$ (Cradle-to-farmgate embodied carbon footprint including field methane, fertilizer, and irrigation energy; IRRI / FAO LCA benchmark).
+  $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{650 \text{ L/yr} \times 2.68 \text{ kg CO}_2\text{e/L}}{1000} = 1.742 \text{ tCO}_2\text{e/yr}$$
+- **Emission Factor**: $2.68 \text{ kg CO}_2\text{e/liter}$ (IPCC Guidelines for National Greenhouse Gas Inventories, Vol 2: Energy).
+
+### 2.2 Raised Hermetic Grain Silo (FAO/ICRISAT Post-Harvest Waste Proxy)
+- **Scope**: Post-harvest cereal preservation in flood-prone saucer basins, eliminating monsoonal floodwater soak and anaerobic decomposition.
+- **Activity Data**: 1,500 kg capacity silo; prevents 16% rotting loss (240 kg cereal grain preserved annually).
+- **Formula**:
+  $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{240 \text{ kg saved} \times 1.15 \text{ kg CO}_2\text{e/kg}}{1000} = 0.276 \text{ tCO}_2\text{e/yr}$$
+- **Emission Factor**: $1.15 \text{ kg CO}_2\text{e/kg}$ decayed biomass (FAO Food Wastage Footprint: Impacts on Natural Resources, 2013).
+
+### 2.3 Portable Solar Conduction Dryer (Indicative Biomass Spoilage Proxy)
+- **Scope**: Rapid solar drying of chili, turmeric, and vegetables, preventing high-humidity mold rot.
+- **Scientific Clarification**: Previously referenced against UNFCCC AMS-I.E; corrected because AMS-I.E strictly governs thermal biomass energy/cookstoves, not agricultural drying. Model uses an indicative post-harvest biomass waste reduction proxy.
+- **Activity Data**: 800 kg produce processed/year; prevents 12% moisture decay (96 kg crop preserved).
+- **Formula**:
+  $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{96 \text{ kg saved} \times 1.15 \text{ kg CO}_2\text{e/kg}}{1000} = 0.110 \text{ tCO}_2\text{e/yr}$$
+
+### 2.4 Micro-Drip Irrigation Kit (Indicative Agricultural Pumping Benchmark)
+- **Scope**: Gravity-fed low-pressure drip irrigation reducing pumping water requirement by 60%.
+- **Activity Data**: Saves 180 liters of diesel fuel annually across a 0.5-acre vegetable parcel.
+- **Formula**:
+  $$\text{Emissions Avoided (tCO}_2\text{e/yr)} = \frac{180 \text{ L/yr} \times 2.68 \text{ kg CO}_2\text{e/L}}{1000} = 0.482 \text{ tCO}_2\text{e/yr}$$
+- **Note**: Transparent physical calculation without arbitrary additive constants.
 
 ---
 

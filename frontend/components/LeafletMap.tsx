@@ -66,17 +66,18 @@ export function LeafletMap({
         attributionControl: false,
       });
 
-      // CartoDB Dark Matter tile layer for institutional dark map aesthetic
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      // OpenStreetMap tile layer styled dark for institutional aesthetic
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        subdomains: 'abcd',
+        subdomains: ['a', 'b', 'c'],
+        className: 'map-tiles-dark',
       }).addTo(map);
 
       // Custom minimal attribution in corner
       L.control
         .attribution({
           position: 'bottomright',
-          prefix: '<span class="text-[10px] text-slate-500">© OpenStreetMap, © CartoDB, OSM Rel:1568263</span>',
+          prefix: '<span class="text-[10px] text-slate-500">© OpenStreetMap contributors, OSM Rel:1568263</span>',
         })
         .addTo(map);
 

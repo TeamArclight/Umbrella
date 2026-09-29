@@ -72,7 +72,7 @@ $$\text{Climate Hazard} \longrightarrow \text{Portfolio Exposure} \longrightarro
 
 - **Backend**: Python 3.10+, FastAPI, Pydantic v2, Starlette, Uvicorn, AnyIO, Pytest
 - **Frontend**: Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Leaflet, Lucide Icons
-- **Data Integrations**: Open-Meteo High-Resolution Ensemble API, ECMWF ERA5 & ERA5-Land Reanalysis, CHIRPS v2.0 Climatology, Copernicus Sentinel-1 SAR Metadata, CWC River Telemetry
+- **Data Integrations**: Open-Meteo Weather Forecast API (ECMWF IFS & DWD ICON), ECMWF ERA5 & ERA5-Land Reanalysis, CHIRPS v2.0 Climatology, Copernicus Sentinel-1 SAR Metadata, CWC River Telemetry
 - **Standards & Methodologies**: UNFCCC AMS-I.A, FAO Post-Harvest (2021), IPCC EFDB, CEA India CO2 Baseline Database v19
 
 ---
@@ -188,26 +188,32 @@ Every data point in Umbrella is marked with explicit provenance:
 
 ## 8. Documentation Index
 
-- [Final Audit & Hardening Report](file:///docs/FINAL_AUDIT.md)
-- [Product Truth Table (Evaluator Guide)](file:///docs/PRODUCT_TRUTH_TABLE.md)
-- [Upstream Source & Data Register](file:///docs/SOURCE_REGISTER.md)
-- [Demo Resilience & Offline Playbook](file:///docs/DEMO_RESILIENCE.md)
-- [End-to-End Demo Flow & 3-Min Script](file:///docs/DEMO_FLOW.md)
-- [System Architecture](file:///docs/ARCHITECTURE.md)
-- [Green Finance & Amortization Engine](file:///docs/GREEN_FINANCE.md)
-- [Physical Asset Verification Protocol](file:///docs/VERIFICATION.md)
-- [Climate Impact & Emissions Avoidance Methodology](file:///docs/IMPACT_METHODOLOGY.md)
-- [Lifecycle State Machine](file:///docs/STATE_MACHINE.md)
-- [Data Provenance & Modality Register](file:///docs/DATA_PROVENANCE.md)
-- [Flood Hazard Model v1.0](file:///docs/FLOOD_HAZARD_MODEL.md)
-- [Pilot Selection (Darbhanga, Bihar)](file:///docs/PILOT_SELECTION.md)
-- [Historical Replay & Ground-Truth Sentinel-1 Validation](file:///docs/HISTORICAL_REPLAY.md)
+- [Final Audit & Hardening Report](docs/FINAL_AUDIT.md)
+- [Claim Register & Scientific Integrity Matrix](docs/CLAIM_REGISTER.md)
+- [Historical Replay Verification & Anti-Leakage Audit](docs/REPLAY_VERIFICATION.md)
+- [Demo Dataset & Deterministic Seed Catalog](docs/DEMO_DATASET.md)
+- [Master 3-Minute Presentation Script & Flow](docs/FINAL_DEMO_SCRIPT.md)
+- [Judge & Evaluator Q&A Playbook (25 Answers)](docs/JUDGE_QA.md)
+- [Final System Architecture Specification](docs/ARCHITECTURE_FINAL.md)
+- [Executive Feature Matrix](docs/FEATURE_MATRIX.md)
+- [Product Truth Table (Evaluator Guide)](docs/PRODUCT_TRUTH_TABLE.md)
+- [Upstream Source & Data Register](docs/SOURCE_REGISTER.md)
+- [Demo Resilience & Offline Playbook](docs/DEMO_RESILIENCE.md)
+- [System Architecture](docs/ARCHITECTURE.md)
+- [Green Finance & Amortization Engine](docs/GREEN_FINANCE.md)
+- [Physical Asset Verification Protocol](docs/VERIFICATION.md)
+- [Climate Impact & Emissions Avoidance Methodology](docs/IMPACT_METHODOLOGY.md)
+- [Lifecycle State Machine](docs/STATE_MACHINE.md)
+- [Data Provenance & Modality Register](docs/DATA_PROVENANCE.md)
+- [Flood Hazard Model v1.0](docs/FLOOD_HAZARD_MODEL.md)
+- [Pilot Selection (Darbhanga, Bihar)](docs/PILOT_SELECTION.md)
+- [Historical Replay & Ground-Truth Sentinel-1 Validation](docs/HISTORICAL_REPLAY.md)
 
 ---
 
 ## 9. Current Development Status
 
-- **Status**: Production-ready Closed-Loop Climate Adaptation Flywheel (Audited & Demo-Hardened).
+- **Status**: Working, Tested, Demo-Hardened Hackathon MVP (Closed-Loop Climate Adaptation Flywheel).
 - **Backend**: Verified FastAPI REST service with 98 passing tests (100% pass rate) across 14 test suites with 86% statement coverage.
 - **Frontend**: Next.js 14 App Router application with 11 production routes compiled, zero TypeScript errors, mobile-friendly field officer interface, and interactive impact dashboards.
 - **Resilience**: Full deterministic offline mock fallback support with transparent provenance badging and global status bar monitoring.

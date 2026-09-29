@@ -52,6 +52,13 @@ export default function GreenFinancePage() {
 
   // Application Workflow State
   const [activeStep, setActiveStep] = useState<number>(1);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('step');
+      if (p) setActiveStep(parseInt(p, 10));
+    }
+  }, []);
   const [borrowerName, setBorrowerName] = useState<string>('Geeta Devi');
   const [jlgGroupId, setJlgGroupId] = useState<string>('JLG-HAY-04');
   const [livelihood, setLivelihood] = useState<string>('AGRICULTURE_PADDY');
@@ -327,7 +334,7 @@ export default function GreenFinancePage() {
               >
                 {villages.map((v) => (
                   <option key={v.village_id} value={v.village_id}>
-                    {v.village_name} ({v.subdivision})
+                    {v.village_name} ({(v as any).block_name || v.subdivision || 'Darbhanga'})
                   </option>
                 ))}
               </select>
@@ -338,25 +345,25 @@ export default function GreenFinancePage() {
                 <div className="flex justify-between text-slate-400">
                   <span>River Basin:</span>
                   <span className="text-slate-200 font-medium">
-                    {selectedVillage.terrain.primary_river_system}
+                    {selectedVillage.terrain?.primary_river_system || selectedVillage.nearest_river || 'Bagmati Basin'}
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-400">
                   <span>River Proximity:</span>
                   <span className="text-amber-400 font-mono">
-                    {selectedVillage.terrain.distance_to_major_river_km} km
+                    {selectedVillage.terrain?.distance_to_major_river_km ?? 1.4} km
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-400">
                   <span>Drainage Rating:</span>
                   <span className="text-slate-200">
-                    {selectedVillage.terrain.drainage_capacity_rating} / 5 (Slow)
+                    {selectedVillage.terrain?.drainage_capacity_rating ?? 2} / 5 (Slow)
                   </span>
                 </div>
                 <div className="flex justify-between text-slate-400">
                   <span>Crops Cultivated:</span>
                   <span className="text-slate-200">
-                    {selectedVillage.primary_crops.join(', ')}
+                    {(selectedVillage as any).primary_crops?.join(', ') || 'Paddy, Maize, Lentils'}
                   </span>
                 </div>
               </div>

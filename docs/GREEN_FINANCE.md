@@ -22,7 +22,12 @@ Umbrella includes three pre-configured indicative green finance products tailore
 | `prod-solar-equipment` | Solar Equipment Loan | Solar irrigation pumps, solar dryers | ₹25,000 – ₹80,000 | 18 – 36 months | 16.0% p.a. | 2.0% |
 | `prod-farm-resilience` | Farm Resilience Loan | Drip irrigation, livestock shelters, drainage | ₹15,000 – ₹60,000 | 12 – 30 months | 17.0% p.a. | 2.0% |
 
-> **Regulatory Note**: In compliance with RBI Directions for Microfinance Loans (2022), interest rates and fees shown are indicative and subject to individual MFI board-approved policies and risk-based pricing frameworks.
+> **Regulatory Note (RBI Microfinance Framework 2022)**:
+> In accordance with the Reserve Bank of India (RBI) *Master Direction – Reserve Bank of India (Regulatory Framework for Microfinance Loans) Directions, 2022*:
+> 1. A microfinance loan is defined as a collateral-free loan to a household having an annual household income up to ₹3,00,000.
+> 2. Statutory ticket-size caps were deregulated in 2022; the statutory boundary is governed by the 50% debt-service ratio (monthly loan repayment obligations across all lenders must not exceed 50% of monthly household income).
+> 3. No prepayment penalties are permitted. Pricing and fees are governed by board-approved policies with full borrower disclosure.
+> 4. Specific loan amounts (₹10,000–₹80,000), tenure ranges, and 5-member Joint Liability Group (JLG) structures shown in Umbrella are **synthetic demo configurations** typical of operational rural microfinance practices, NOT statutory mandates.
 
 ---
 

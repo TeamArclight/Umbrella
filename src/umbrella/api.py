@@ -880,7 +880,7 @@ def get_audit_trail(
     entity_type: Optional[str] = Query(None, description="Filter by entity type (APPLICATION, ASSET, VERIFICATION)"),
     limit: int = Query(50, ge=1, le=200, description="Max events to return"),
 ):
-    """Retrieve immutable chronological audit trail events."""
+    """Retrieve append-only chronological audit trail events."""
     return flywheel_store.audit.list_events(entity_id=entity_id, entity_type=entity_type, limit=limit)
 
 

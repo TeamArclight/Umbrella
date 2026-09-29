@@ -281,7 +281,7 @@ export default function AssetDetailPage() {
         {/* AUDIT TRAIL LOG */}
         <div className="p-5 rounded-xl border border-slate-800 bg-[#0f172a] shadow space-y-3">
           <h3 className="text-xs font-bold text-white uppercase tracking-wider">
-            Immutable Audit Trail Log ({auditEvents.length} Events)
+            Append-Only Audit Trail Log ({auditEvents.length} Events)
           </h3>
 
           {auditEvents.length === 0 ? (

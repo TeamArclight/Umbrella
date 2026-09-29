@@ -166,7 +166,7 @@ async function runAll() {
 
     // 20. Impact Methodologies
     await testEndpoint('/api/v1/impact/methodologies', (data) => {
-      assert.strictEqual(data.length, 2, `Expected 2 methodologies, got ${data.length}`);
+      assert.ok(data.length >= 2, `Expected at least 2 methodologies, got ${data.length}`);
       assert.ok(data.some((m) => m.methodology_id === 'UNFCCC-AMS-I.A'));
       assert.ok(data.some((m) => m.methodology_id === 'FAO-POST-HARVEST-2021'));
     });

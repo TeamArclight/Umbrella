@@ -82,7 +82,7 @@ export default function LiveRiskPage() {
               </h2>
             </div>
             <p className="text-xs text-slate-400">
-              Direct ingestion from Open-Meteo High-Resolution Ensemble (ECMWF & DWD ICON)
+              Direct ingestion from Open-Meteo Weather Forecast API (ECMWF IFS & DWD ICON)
             </p>
           </div>
 

@@ -149,11 +149,11 @@ Complete transparent mathematical and scientific documentation:
 
 ```bash
 # Terminal 1: Start FastAPI Backend
-cd c:\Users\user\Documents\UMBRELLA\src
+# Set PYTHONPATH to src, then start uvicorn
 python -m uvicorn umbrella.api:app --host 127.0.0.1 --port 8000
 
 # Terminal 2: Start Next.js Frontend
-cd c:\Users\user\Documents\UMBRELLA\frontend
+cd frontend
 npm run start -p 3000
 # (or for development: npm run dev)
 ```

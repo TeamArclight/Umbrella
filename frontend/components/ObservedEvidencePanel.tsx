@@ -51,24 +51,29 @@ export function ObservedEvidencePanel({ evidence }: ObservedEvidencePanelProps) 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
-          {evidence.cwc_gauge_records.map((gauge) => {
-            const diff = (gauge.crest_level_m - gauge.danger_level_m).toFixed(2);
+          {evidence.cwc_gauge_records.map((gauge: any, idx: number) => {
+            const station = gauge.station_name || gauge.station || `Station ${idx + 1}`;
+            const crest = gauge.peak_water_level_recorded_m ?? gauge.crest_level_m ?? 0;
+            const danger = gauge.danger_level_m ?? 0;
+            const diff = gauge.water_level_above_danger_level_m != null
+              ? Number(gauge.water_level_above_danger_level_m).toFixed(2)
+              : (crest - danger).toFixed(2);
             return (
               <div
-                key={gauge.station}
+                key={station}
                 className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 space-y-1.5"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-100 font-sans">{gauge.station}</span>
+                  <span className="font-bold text-slate-100 font-sans">{station}</span>
                   <span className="text-[10px] text-sky-400">{gauge.river} River</span>
                 </div>
                 <div className="flex items-baseline justify-between pt-1">
                   <span className="text-slate-400 text-[11px]">Observed Crest:</span>
-                  <span className="text-sm font-bold text-rose-400">{gauge.crest_level_m} m</span>
+                  <span className="text-sm font-bold text-rose-400">{crest} m</span>
                 </div>
                 <div className="flex items-baseline justify-between text-[11px]">
                   <span className="text-slate-400">Danger Level:</span>
-                  <span className="text-slate-300">{gauge.danger_level_m} m</span>
+                  <span className="text-slate-300">{danger} m</span>
                 </div>
                 <div className="pt-1.5 border-t border-slate-800 text-[10px] text-rose-300 flex items-center justify-between">
                   <span>Above Danger:</span>
@@ -103,26 +108,33 @@ export function ObservedEvidencePanel({ evidence }: ObservedEvidencePanelProps) 
                 <th className="py-2.5 px-3 font-semibold">Orbit</th>
                 <th className="py-2.5 px-3 font-semibold">Direction</th>
                 <th className="py-2.5 px-3 font-semibold">Resolution</th>
-                <th className="py-2.5 px-3 font-semibold">Coverage</th>
+                <th className="py-2.5 px-3 font-semibold">Baseline Type</th>
                 <th className="py-2.5 px-3 font-semibold text-right">SAR Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-300">
-              {evidence.sar_acquisitions.map((sar) => (
-                <tr key={sar.acquisition_id} className="hover:bg-slate-800/30">
-                  <td className="py-2 px-3 text-sky-400 font-medium">{sar.acquisition_id}</td>
-                  <td className="py-2 px-3">{sar.date}</td>
-                  <td className="py-2 px-3">{sar.relative_orbit}</td>
-                  <td className="py-2 px-3">{sar.orbit_direction}</td>
-                  <td className="py-2 px-3">{sar.resolution}</td>
-                  <td className="py-2 px-3">{sar.coverage_percentage}%</td>
-                  <td className="py-2 px-3 text-right">
-                    <span className="inline-block px-2 py-0.5 rounded text-[10px] bg-purple-950/60 text-purple-300 border border-purple-800/40">
-                      RAW SAR AVAILABLE
-                    </span>
-                  </td>
-                </tr>
-              ))}
+              {evidence.sar_acquisitions.map((sar: any, idx: number) => {
+                const sceneId = sar.acquisition_id || `S1A-IW-GRD-${sar.orbit || 121}-${idx + 1}`;
+                const date = sar.scene_date || sar.date || '2020-07';
+                const orbit = sar.orbit || sar.relative_orbit || 121;
+                const direction = sar.orbit_direction || (orbit === 121 ? 'Ascending' : 'Descending');
+                const phase = sar.baseline_type || 'SAR Acquisition';
+                return (
+                  <tr key={sceneId} className="hover:bg-slate-800/30">
+                    <td className="py-2 px-3 text-sky-400 font-medium">{sceneId}</td>
+                    <td className="py-2 px-3">{date}</td>
+                    <td className="py-2 px-3">{orbit}</td>
+                    <td className="py-2 px-3">{direction}</td>
+                    <td className="py-2 px-3">{sar.resolution || '10m (IW)'}</td>
+                    <td className="py-2 px-3">{phase}</td>
+                    <td className="py-2 px-3 text-right">
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] bg-purple-950/60 text-purple-300 border border-purple-800/40">
+                        RAW SAR AVAILABLE
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

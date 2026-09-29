@@ -33,13 +33,21 @@ export default function HistoricalReplayPage() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // Check URL search params for snapshot date
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('date');
+      if (p) setSelectedDate(p);
+    }
+  }, []);
+
   // Data states
   const [eventData, setEventData] = useState<HistoricalEvent | null>(null);
   const [districtReplay, setDistrictReplay] = useState<any>(null);
   const [districtBoundary, setDistrictBoundary] = useState<any>(null);
   const [villageReplayReport, setVillageReplayReport] = useState<HistoricalReplayReport | null>(null);
   const [evidenceData, setEvidenceData] = useState<ObservedFloodValidationResult | null>(null);
-  const [selectedVillageId, setSelectedVillageId] = useState<string>('IND-BIH-DAR-001');
+  const [selectedVillageId, setSelectedVillageId] = useState<string>('VIL-DAR-HAY');
 
   // Load Event and District Boundary
   useEffect(() => {

@@ -1,0 +1,35 @@
+# Umbrella Master 3-Minute Presentation Script & Flow
+
+**Event:** Sankalp Hackathon 2026 Presentation  
+**Target Time:** 3 Minutes (180 Seconds)  
+**Mode:** Presentation Mode (11 Guided Steps)  
+**Preset Reset:** `POST /api/v1/demo/reset` executed prior to start  
+
+---
+
+## 1. Master Timing & Progression Table
+
+| Step | Time Elapsed | Screen & Route | Presenter Action | Spoken Narrative Line | Expected Visual | Offline / Fail-Safe Backup |
+| :---: | :---: | :--- | :--- | :--- | :--- | :--- |
+| **01** | `0:00 - 0:15` | **Command Center**<br>`/dashboard` | Click **"Presentation Mode"** on sidebar. | *"Good morning, judges. Microfinance in India faces an escalating crisis: extreme monsoons submerge crops, and lenders react weeks too late. Umbrella changes microfinance from reactive loan loss provisioning into proactive climate adaptation."* | Top metrics banner: 10 monitored clusters, ₹2.45 Cr portfolio, live weather feed status badge. | If live weather fails, amber "MOCK / DEMO" badge activates seamlessly with 0 UI disruption. |
+| **02** | `0:15 - 0:30` | **Explain Risk**<br>`/live-risk` | Click **Next (02)** or select Hayaghat cluster. | *"Here in Darbhanga, Bihar, our Flood Hazard Model v1.0 ingests real Open-Meteo numerical weather forecasts. Most importantly, we maintain our fundamental axiom: Physical Climate Hazard does NOT increase just because an MFI has more loans in a village."* | 5-part radar decomposition: 35% accumulation, 25% burst, 15% soil saturation, 15% anomaly, 10% topography. | Radar chart renders with deterministic default values. |
+| **03** | `0:30 - 0:50` | **Historical Replay**<br>`/historical-replay` | Click **Next (03)**. Click timeline chips: $T-7 \rightarrow T-3 \rightarrow T_0$. | *"To prove our models work under real crisis conditions, we replayed the catastrophic July 2020 North Bihar flood. Moving from T-7 to T-3 to peak T0, watch the physical hazard escalate from 31 to 86 as the Bagmati River submerged East Central Railway Bridge 16. Our causal anti-leakage guarantee ensures zero look-ahead bias."* | Animated timeline with CWC gauge exceedance (+2.14m) and Sentinel-1 SAR acquisition passes. | Static ERA5 retrospective dataset embedded in local JSON. |
+| **04** | `0:50 - 1:05` | **Portfolio Exposure**<br>`/portfolio` | Click **Next (04)**. View cluster scatter plot. | *"Now we layer financial exposure. Notice Village A and Village B: both have identical 80-point flood hazards, but Village B has ₹80 lakh outstanding while Village A has ₹2 lakh. They have the same flood probability, but our Priority Index ranks Village B higher so branch managers intervene there first."* | Decoupled 2D quadrant scatter plot separating Physical Hazard (Y-axis) from Capital Exposure (X-axis). | Deterministic synthetic portfolio seeded for 10 clusters. |
+| **05** | `1:05 - 1:20` | **Action Center**<br>`/actions` | Click **Next (05)**. Review early warning actions. | *"When hazard thresholds breach, Umbrella's recommendation engine generates targeted operational actions: SMS flood alerts, grace period activations, and climate-resilience loan recommendations tailored to the borrower's exact crop."* | Priority-sorted action cards showing recommended interventions and borrower group targets. | Rule-based engine runs locally with 100% test coverage. |
+| **06** | `1:20 - 1:35` | **Adaptation Catalog**<br>`/actions` | Scroll to **Resilience Interventions Catalog**. | *"We support 6 standardized, field-vetted interventions: elevated hermetic silos for grain, portable solar dryers for spices, and raised community livestock shelters. Pure adaptation assets are strictly labeled, refusing to fabricate fake carbon credits."* | Grid of 6 adaptation cards displaying capital costs, target hazards, and verification criteria. | Catalog stored in Python `INTERVENTIONS_CATALOG` registry. |
+| **07** | `1:35 - 1:50` | **Green Financing**<br>`/green-finance` | Click **Next (07)**. Adjust loan tenure slider. | *"To finance these assets, Umbrella provides 3 RBI-compliant loan products. Our financial calculator computes monthly reducing-balance EMIs, operational diesel fuel savings, and payback periods in real-time."* | Interactive loan amortization calculator with monthly EMI and diesel savings chart. | Client-side math runs instantly in React state. |
+| **08** | `1:50 - 2:10` | **Human Decision Gate**<br>`/green-finance` | Click **Next (08)**. Click **Approve Application** on `APP-DAR-BIR-003`. | *"Crucially, Umbrella rejects autonomous algorithmic lending. Every restructuring, grace period, and loan approval passes through a mandatory human decision gate with officer identity, timestamp, and audit logging."* | Decision modal prompt; application transitions from `UNDER_REVIEW` to `APPROVED` with toast notification. | In-memory store updates state and persists audit record. |
+| **09** | `2:10 - 2:25` | **Field Verification**<br>`/field-officer` | Click **Next (09)**. Select asset `AST-DAR-KUS-002`. Click **Run Verification Audit**. | *"How do we prevent ghost assets? Field officers inspect installations using a GPS-tagged mobile checklist. Umbrella computes tamper-evident SHA-256 photo digests and flags coordinate offsets greater than 100 meters."* | GPS coordinate verification badge (Green match vs Amber warning) and automated checklist review. | Pre-computed image SHA-256 hashes validate deterministically. |
+| **10** | `2:25 - 2:45` | **Dual-Track Impact**<br>`/impact` | Click **Next (10)**. Toggle carbon price slider ($15 $\rightarrow$ $30/t). | *"Once verified, Umbrella measures dual-track impact: primary adaptation—such as 1500 kg grain saved—and secondary emissions avoided via UNFCCC AMS-I.A and FAO proxies. We explicitly label these as uncertified operational estimates, never claiming fake tradable credits."* | Portfolio impact roll-up: ₹65,000 deployed, 100% verified, 2.13 tCO2e avoided, with prominent regulatory disclaimers. | Pre-calculated portfolio summary with zero runtime API latency. |
+| **11** | `2:45 - 3:00` | **Asset Traceability**<br>`/assets/AST-DAR-HAY-001` | Click **Next (11)**. Show chronological audit history. | *"Finally, full end-to-end traceability. Every loan application, officer review, field photograph, and impact estimate is logged in an append-only audit trail. Umbrella turns climate risk into measurable rural resilience. Thank you, and we welcome your questions."* | Complete lifecycle timeline for Sunita Devi's grain silo from loan application to verified operation. | Historical audit log retrieved via `/api/v1/audit/events`. |
+
+---
+
+## 2. Emergency Presenter Checklist
+
+- [ ] Backend running: `python -m uvicorn umbrella.api:app --host 127.0.0.1 --port 8000`
+- [ ] Frontend running: `npm run start -p 3000` (or `npm run dev`)
+- [ ] Clean state seeded: `curl -X POST http://127.0.0.1:8000/api/v1/demo/reset`
+- [ ] Browser open at: `http://localhost:3000/dashboard`
+- [ ] Click **"Presentation Mode"** on sidebar to open top navigation bar
+- [ ] Use keyboard arrow keys or **Next / Prev** buttons for seamless slide-free transitions

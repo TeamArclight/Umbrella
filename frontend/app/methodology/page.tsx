@@ -87,14 +87,14 @@ export default function MethodologyPage() {
                   <td className="py-2.5 px-3 font-semibold text-white">Forecast Accumulation</td>
                   <td className="py-2.5 px-3 font-mono font-bold text-sky-400">35%</td>
                   <td className="py-2.5 px-3 font-mono text-slate-400">Precipitation (mm)</td>
-                  <td className="py-2.5 px-3 text-slate-400">Open-Meteo Ensemble</td>
+                  <td className="py-2.5 px-3 text-slate-400">Open-Meteo NWP Forecast (ECMWF & DWD ICON)</td>
                   <td className="py-2.5 px-3 text-slate-400">Total volume of atmospheric water entering the village catchment</td>
                 </tr>
                 <tr>
                   <td className="py-2.5 px-3 font-semibold text-white">Peak Burst Intensity</td>
                   <td className="py-2.5 px-3 font-mono font-bold text-sky-400">25%</td>
                   <td className="py-2.5 px-3 font-mono text-slate-400">Max Burst (mm/day)</td>
-                  <td className="py-2.5 px-3 text-slate-400">Open-Meteo Ensemble</td>
+                  <td className="py-2.5 px-3 text-slate-400">Open-Meteo NWP Forecast (ECMWF & DWD ICON)</td>
                   <td className="py-2.5 px-3 text-slate-400">Single-day deluge rate overwhelming localized surface drainage channels</td>
                 </tr>
                 <tr>
