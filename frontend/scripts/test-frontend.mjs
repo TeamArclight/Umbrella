@@ -22,6 +22,8 @@ const expectedStaticRoutes = [
   '/portfolio',
   '/actions',
   '/green-finance',
+  '/field-officer',
+  '/impact',
   '/methodology',
 ];
 
@@ -30,6 +32,11 @@ expectedStaticRoutes.forEach((route) => {
   assert.ok(found, `Static route ${route} must be compiled in routes-manifest.json`);
   console.log(`  ✓ Route compiled: ${route}`);
 });
+
+// Check dynamic routes
+const foundDynamic = routesManifest.dynamicRoutes.some((r) => r.page === '/assets/[id]');
+assert.ok(foundDynamic, 'Dynamic route /assets/[id] must be compiled in routes-manifest.json');
+console.log('  ✓ Dynamic route compiled: /assets/[id]');
 
 // Test 2: Verify component files exist
 console.log('\nTest 2: Verifying institutional component files...');
@@ -89,4 +96,46 @@ const villageBPortfolio = 8000000; // ₹80 Lakh
 assert.strictEqual(villageAHazard, villageBHazard, 'Physical hazard must be identical regardless of portfolio scale');
 console.log(`  ✓ Village A Hazard (${villageAHazard}) === Village B Hazard (${villageBHazard})`);
 
-console.log('\n🎉 ALL FRONTEND INTEGRATION TESTS PASSED (5/5)\n');
+// Test 6: Deterministic Loan Amortization formula verification
+console.log('\nTest 6: Verifying Reducing-Balance Loan Amortization formula...');
+const principal = 25000;
+const annualRate = 18.0;
+const tenureMonths = 18;
+const monthlyRate = annualRate / (12 * 100);
+const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) / (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+const roundedEmi = Math.round(emi);
+assert.ok(roundedEmi >= 1590 && roundedEmi <= 1605, `EMI should be approx 1598, got ${roundedEmi}`);
+const totalRepayment = roundedEmi * tenureMonths;
+const totalInterest = totalRepayment - principal;
+assert.ok(totalInterest > 0, 'Total interest must be positive');
+console.log(`  ✓ Principal: ₹${principal}, Rate: ${annualRate}%, Tenure: ${tenureMonths}m -> EMI: ₹${roundedEmi}, Total Interest: ₹${totalInterest}`);
+
+// Test 7: Activity-Based Emissions Avoided proxy calculation
+console.log('\nTest 7: Verifying Activity-Based Emissions Avoided proxy calculation...');
+const dieselLiters = 350;
+const dieselFactorKg = 2.68;
+const emissionsAvoidedKg = dieselLiters * dieselFactorKg;
+const emissionsAvoidedTons = emissionsAvoidedKg / 1000.0;
+assert.strictEqual(Math.round(emissionsAvoidedTons * 1000) / 1000, 0.938, 'Emissions avoided must equal 0.938 tCO2e');
+console.log(`  ✓ Diesel Saved: ${dieselLiters} L × ${dieselFactorKg} kg/L = ${emissionsAvoidedTons.toFixed(3)} tCO2e`);
+
+// Test 8: Haversine distance geofence threshold check
+console.log('\nTest 8: Verifying Haversine distance geofence classification...');
+function haversineM(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+const distClose = haversineM(25.9620, 85.9080, 25.9630, 85.9090); // ~150m
+assert.ok(distClose < 500, 'Distance must be <500m (PASS)');
+const distFar = haversineM(25.9620, 85.9080, 26.0500, 85.9900); // >10km
+assert.ok(distFar > 2000, 'Distance must be >2000m (FLAG)');
+console.log(`  ✓ Close distance: ${Math.round(distClose)}m (<500m PASS)`);
+console.log(`  ✓ Far distance: ${Math.round(distFar)}m (>2000m FLAG)`);
+
+console.log('\n🎉 ALL FRONTEND INTEGRATION TESTS PASSED (8/8)\n');

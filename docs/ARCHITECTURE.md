@@ -213,3 +213,62 @@ Version 2.1.0 introduces retrospective disaster replay capabilities, enabling hi
 - **Cluster Tier**: 10 real operational blocks (`villages.geojson`) with calibrated elevation, slope, drainage index, and river proximity.
 - **Topological Integrity**: Mathematical point-in-polygon containment continuously audited.
 
+---
+
+## 6. The Complete Climate-Adaptive Microfinance Flywheel
+
+```
+┌───────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              UMBRELLA COMPLETE ADAPTATION FLYWHEEL                                │
+│                                                                                                   │
+│   [Climate Risk Intelligence]                                                                     │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Portfolio Exposure Scoring]                                                                    │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Adaptation Recommendation Engine]  (Rule-based suitability ranking for 6 interventions)        │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Green Finance Simulator]           (Reducing-balance EMI, operational payback calculations)    │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Human Credit Appraisal]           (MANDATORY human decision; automated lending prohibited)     │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Disbursement & Asset Spawning]    (Creates tracked ResilienceAsset record)                     │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Field Verification Subsystem]     (Magic bytes, SHA-256 duplicate check, Haversine geofence)   │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Dual-Track Impact Engine]         (1. Physical Loss Averted | 2. Activity Emissions Avoided)   │
+│             │                                                                                     │
+│             ▼                                                                                     │
+│   [Append-Only Audit Trail]          (Complete cryptographic lifecycle provenance)                │
+└───────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 6.1 Core Flywheel Engines
+1. **`AdaptationRecommendationEngine`** (`src/umbrella/engine/adaptation_rec.py`):
+   - Maps physical flood hazard triggers and local smallholder livelihoods into prioritized intervention recommendations.
+   - Evaluates suitability scores ($0-100$), operational prerequisites, and exclusion rules.
+2. **`GreenFinancingEngine`** (`src/umbrella/engine/financing.py`):
+   - Computes deterministic reducing-balance amortizations ($EMI = P \frac{r(1+r)^n}{(1+r)^n - 1}$), total interest, and 2% processing fees.
+   - Derives operational cost savings, flood loss avoidance, and simple payback horizons.
+3. **`ApplicationStateMachine`** (`src/umbrella/engine/state_machine.py`):
+   - Enforces valid lifecycle state transitions (`DRAFT → RECOMMENDED → UNDER_REVIEW → APPROVED/REJECTED → DISBURSED → INSTALLED → VERIFICATION_PENDING → VERIFIED → CLOSED`).
+   - Requires explicit human officer credentials for approval.
+4. **`AssetVerificationEngine`** (`src/umbrella/engine/verification.py`):
+   - Validates photo evidence headers (JPEG/PNG/WebP magic bytes, max 5MB, UUID storage).
+   - Computes SHA-256 duplicate image hashes across all historical assets to prevent fraudulent re-use.
+   - Calculates Haversine geofence deviation from registered village coordinates ($\le 500\text{ m}$ PASS, $500-2000\text{ m}$ REVIEW, $> 2000\text{ m}$ FLAG).
+   - Synthesizes dynamic multi-point physical checklists.
+5. **`DualTrackImpactEngine`** (`src/umbrella/engine/impact_engine.py`):
+   - **Track 1**: Primary adaptation and operational resilience metrics (grain protected, flood loss averted, households safeguarded).
+   - **Track 2**: Activity-based emissions avoided proxies calculated strictly via `UNFCCC AMS-I.A` and `FAO Post-Harvest (2021)`.
+   - **Illustrative Scenario Modeling**: Interactive carbon price sensitivity slider (\$5–\$50/tCO2e) with transparent non-credit disclaimers.
+6. **`AuditLogger`** (`src/umbrella/engine/audit.py`):
+   - Thread-safe append-only ledger logging every state change, document upload, and human decision.
+
+

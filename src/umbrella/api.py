@@ -12,7 +12,7 @@ Exposes RESTful endpoints under /api/v1/ for:
 
 from datetime import date
 from typing import Any, Dict, List, Optional
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 from umbrella.pipeline import UmbrellaPipeline, VillagePipelineResult
@@ -26,6 +26,39 @@ from umbrella.schemas.replay import (
     HistoricalReplayReport,
     ObservedFloodValidationResult,
 )
+from umbrella.schemas.resilience import (
+    ResilienceIntervention,
+    AdaptationRecommendationResponse,
+    GreenFinanceProduct,
+    FinancingScenarioRequest,
+    FinancingScenarioResponse,
+    GreenFinanceApplication,
+    ApplicationCreateRequest,
+    ApplicationDecisionRequest,
+    ResilienceAsset,
+    AssetCreateRequest,
+    AssetVerification,
+    VerificationCreateRequest,
+    VerificationDecisionRequest,
+    ImpactMethodology,
+    AssetImpactRecord,
+    PortfolioImpactSummary,
+    CarbonScenarioCalculation,
+    AuditEvent,
+)
+from umbrella.engine.catalog import (
+    list_interventions,
+    get_intervention,
+    list_finance_products,
+    get_finance_product,
+    get_methodology,
+    IMPACT_METHODOLOGIES,
+)
+from umbrella.engine.financing import FinancingCalculator
+from umbrella.engine.adaptation_rec import AdaptationRecommendationEngine
+from umbrella.engine.impact_engine import ImpactEstimationEngine
+from umbrella.engine.flywheel_store import FlywheelStore
+from umbrella.engine.state_machine import InvalidStateTransitionError
 from umbrella.engine.replay import HistoricalEventReplayEngine
 from umbrella.validators.sentinel import ObservedFloodValidator
 from umbrella.config.geography import (
@@ -58,6 +91,9 @@ app.add_middleware(
 pipeline = UmbrellaPipeline()
 replay_engine = HistoricalEventReplayEngine()
 flood_validator = ObservedFloodValidator(replay_engine)
+adaptation_rec_engine = AdaptationRecommendationEngine()
+flywheel_store = FlywheelStore()
+
 
 
 
@@ -412,4 +448,454 @@ def get_event_observational_evidence(event_id: str):
         raise HTTPException(status_code=404, detail=f"Historical flood event '{event_id}' not found.")
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
+
+
+# =============================================================================
+# --- Resilience Intervention Catalog ---
+# =============================================================================
+
+@app.get("/api/v1/interventions", response_model=List[ResilienceIntervention], tags=["Resilience"])
+def get_interventions_catalog():
+    """Retrieve all structured climate-resilience physical interventions."""
+    return list_interventions()
+
+
+@app.get("/api/v1/interventions/{intervention_id}", response_model=ResilienceIntervention, tags=["Resilience"])
+def get_single_intervention(intervention_id: str):
+    """Retrieve details, specifications, and verification checklist for a specific intervention."""
+    try:
+        return get_intervention(intervention_id)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+
+
+@app.get(
+    "/api/v1/interventions/recommendations/{village_id}",
+    response_model=AdaptationRecommendationResponse,
+    tags=["Resilience"],
+)
+def get_village_adaptation_recommendations(
+    village_id: str,
+    horizon: int = Query(5, description="Forecast horizon in days (3, 5, or 7)"),
+    month: int = Query(7, ge=1, le=12, description="Evaluation calendar month"),
+):
+    """Generate ranked, explainable resilience interventions tailored to village hazard drivers and livelihoods."""
+    try:
+        eval_res = pipeline.evaluate_village(
+            village_id=village_id,
+            forecast_horizon_days=horizon,
+            evaluation_month=month,
+        )
+        hazard = eval_res.flood_hazard
+        impact = eval_res.portfolio_impact
+
+        drivers = (
+            hazard.drivers
+            if hazard.drivers
+            else [
+                "Monsoon riverine flood basin proximity",
+                "Elevated seasonal precipitation anomaly",
+            ]
+        )
+
+        return adaptation_rec_engine.evaluate_village_interventions(
+            village_id=village_id,
+            village_name=hazard.village_name,
+            hazard_score=hazard.hazard_score,
+            hazard_level=hazard.hazard_level,
+            priority_level=impact.priority_level,
+            hazard_drivers=drivers,
+        )
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Pilot village '{village_id}' not found.")
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# =============================================================================
+# --- Green Finance Products & Financing Calculator ---
+# =============================================================================
+
+@app.get("/api/v1/green-finance/products", response_model=List[GreenFinanceProduct], tags=["Green Finance"])
+def get_green_finance_products():
+    """Retrieve available green microfinance loan products (indicative demo terms)."""
+    return list_finance_products()
+
+
+@app.get("/api/v1/green-finance/products/{product_id}", response_model=GreenFinanceProduct, tags=["Green Finance"])
+def get_single_finance_product(product_id: str):
+    """Retrieve parameters and terms for a specific green finance product."""
+    try:
+        return get_finance_product(product_id)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+
+
+@app.post("/api/v1/green-finance/scenarios", response_model=FinancingScenarioResponse, tags=["Green Finance"])
+def calculate_financing_scenario(
+    request: FinancingScenarioRequest,
+    intervention_id: Optional[str] = Query(None, description="Optional intervention ID to estimate savings & payback"),
+):
+    """Deterministically calculate loan installment (EMI), total repayment, and operational savings payback."""
+    try:
+        return FinancingCalculator.calculate_scenario(request=request, intervention_id=intervention_id)
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# =============================================================================
+# --- Green Finance Applications Lifecycle ---
+# =============================================================================
+
+@app.get("/api/v1/green-finance/applications", response_model=List[GreenFinanceApplication], tags=["Green Finance"])
+def list_applications(
+    village_id: Optional[str] = Query(None, description="Filter by village ID"),
+    status: Optional[str] = Query(None, description="Filter by application lifecycle status"),
+):
+    """List green finance applications with optional filtering."""
+    with flywheel_store._lock:
+        apps = list(flywheel_store.applications.values())
+
+    if village_id:
+        apps = [a for a in apps if a.village_id == village_id]
+    if status:
+        apps = [a for a in apps if a.status == status]
+
+    apps.sort(key=lambda a: a.created_at, reverse=True)
+    return apps
+
+
+@app.get(
+    "/api/v1/green-finance/applications/{application_id}",
+    response_model=GreenFinanceApplication,
+    tags=["Green Finance"],
+)
+def get_application(application_id: str):
+    """Retrieve full application record and decision history."""
+    with flywheel_store._lock:
+        if application_id not in flywheel_store.applications:
+            raise HTTPException(status_code=404, detail=f"Application '{application_id}' not found.")
+        return flywheel_store.applications[application_id]
+
+
+@app.post(
+    "/api/v1/green-finance/applications",
+    response_model=GreenFinanceApplication,
+    status_code=201,
+    tags=["Green Finance"],
+)
+def create_application(request: ApplicationCreateRequest):
+    """Initiate a new resilience financing application in DRAFT state."""
+    try:
+        return flywheel_store.create_application(request)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post(
+    "/api/v1/green-finance/applications/{application_id}/submit",
+    response_model=GreenFinanceApplication,
+    tags=["Green Finance"],
+)
+def submit_application_for_review(application_id: str):
+    """Submit a DRAFT application for human credit officer review."""
+    try:
+        return flywheel_store.submit_for_review(application_id)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except InvalidStateTransitionError as ste:
+        raise HTTPException(status_code=400, detail=str(ste))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post(
+    "/api/v1/green-finance/applications/{application_id}/decision",
+    response_model=GreenFinanceApplication,
+    tags=["Green Finance"],
+)
+def record_application_decision(application_id: str, request: ApplicationDecisionRequest):
+    """Record an explicit human credit officer authorization or rejection.
+    
+    Umbrella does NOT autonomously approve loans.
+    """
+    try:
+        return flywheel_store.record_application_decision(application_id, request)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except InvalidStateTransitionError as ste:
+        raise HTTPException(status_code=400, detail=str(ste))
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post(
+    "/api/v1/green-finance/applications/{application_id}/disburse",
+    response_model=ResilienceAsset,
+    tags=["Green Finance"],
+)
+def disburse_loan_and_register_asset(
+    application_id: str,
+    serial_number: Optional[str] = Query(None, description="Optional equipment serial number / asset tag"),
+):
+    """Mark approved loan as disbursed and register the physical ResilienceAsset."""
+    try:
+        return flywheel_store.disburse_and_register_asset(application_id, serial_number=serial_number)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except InvalidStateTransitionError as ste:
+        raise HTTPException(status_code=400, detail=str(ste))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# =============================================================================
+# --- Physical Resilience Assets ---
+# =============================================================================
+
+@app.get("/api/v1/assets", response_model=List[ResilienceAsset], tags=["Assets"])
+def list_assets(
+    village_id: Optional[str] = Query(None, description="Filter by village ID"),
+    verification_status: Optional[str] = Query(None, description="Filter by verification status"),
+):
+    """List registered resilience assets."""
+    with flywheel_store._lock:
+        assets = list(flywheel_store.assets.values())
+
+    if village_id:
+        assets = [a for a in assets if a.village_id == village_id]
+    if verification_status:
+        assets = [a for a in assets if a.verification_status == verification_status]
+
+    assets.sort(key=lambda a: a.created_at, reverse=True)
+    return assets
+
+
+@app.get("/api/v1/assets/{asset_id}", response_model=ResilienceAsset, tags=["Assets"])
+def get_asset_details(asset_id: str):
+    """Retrieve full profile and verification status of a resilience asset."""
+    with flywheel_store._lock:
+        if asset_id not in flywheel_store.assets:
+            raise HTTPException(status_code=404, detail=f"Resilience asset '{asset_id}' not found.")
+        return flywheel_store.assets[asset_id]
+
+
+# =============================================================================
+# --- Field Verifications & Evidence Submission ---
+# =============================================================================
+
+@app.get("/api/v1/verifications", response_model=List[AssetVerification], tags=["Verification"])
+def list_verifications(
+    asset_id: Optional[str] = Query(None, description="Filter by asset ID"),
+    result: Optional[str] = Query(None, description="Filter by verification result"),
+):
+    """List field verification records."""
+    with flywheel_store._lock:
+        records = list(flywheel_store.verifications.values())
+
+    if asset_id:
+        records = [r for r in records if r.asset_id == asset_id]
+    if result:
+        records = [r for r in records if r.verification_result == result]
+
+    records.sort(key=lambda r: r.created_at, reverse=True)
+    return records
+
+
+@app.get("/api/v1/verifications/{verification_id}", response_model=AssetVerification, tags=["Verification"])
+def get_verification_record(verification_id: str):
+    """Retrieve details and automated integrity breakdown for a verification record."""
+    with flywheel_store._lock:
+        if verification_id not in flywheel_store.verifications:
+            raise HTTPException(status_code=404, detail=f"Verification record '{verification_id}' not found.")
+        return flywheel_store.verifications[verification_id]
+
+
+@app.post("/api/v1/verifications", response_model=AssetVerification, status_code=201, tags=["Verification"])
+def submit_field_verification(request: VerificationCreateRequest):
+    """Submit field inspection checklist and coordinates. Photo can be uploaded concurrently or separately."""
+    try:
+        return flywheel_store.submit_verification(request)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post("/api/v1/verifications/{verification_id}/evidence", response_model=AssetVerification, tags=["Verification"])
+async def upload_verification_evidence(verification_id: str, file: UploadFile = File(...)):
+    """Upload photographic field evidence for a verification record.
+    
+    Performs content-based MIME inspection, computes SHA-256 hash, and runs duplicate evidence detection.
+    """
+    with flywheel_store._lock:
+        if verification_id not in flywheel_store.verifications:
+            raise HTTPException(status_code=404, detail=f"Verification record '{verification_id}' not found.")
+        verif = flywheel_store.verifications[verification_id]
+        asset = flywheel_store.assets.get(verif.asset_id)
+
+    try:
+        content = await file.read()
+        saved_filename, sha256_hash = flywheel_store.verification_engine.validate_and_save_photo(
+            file_bytes=content,
+            original_filename=file.filename or "evidence.jpg",
+            content_type=file.content_type,
+        )
+
+        with flywheel_store._lock:
+            # Re-evaluate automated integrity checks with the new image hash
+            intervention = get_intervention(asset.intervention_id) if asset else None
+            app = flywheel_store.applications.get(asset.application_id) if asset else None
+
+            summary = flywheel_store.verification_engine.evaluate_verification(
+                new_sha256=sha256_hash,
+                current_asset_id=verif.asset_id,
+                existing_hashes=flywheel_store.verification_hashes,
+                submitted_lat=verif.submitted_latitude,
+                submitted_lon=verif.submitted_longitude,
+                expected_lat=asset.expected_latitude if asset else verif.submitted_latitude,
+                expected_lon=asset.expected_longitude if asset else verif.submitted_longitude,
+                submitted_at=verif.submitted_at,
+                application_created_at=app.created_at if app else None,
+                checklist_items=intervention.verification_requirements if intervention else [],
+                checklist_responses=verif.checklist_responses,
+            )
+
+            # Update verification record
+            verif.photo_filename = saved_filename
+            verif.photo_sha256 = sha256_hash
+            verif.automated_summary = summary
+            flywheel_store.verification_hashes[sha256_hash] = verif.asset_id
+
+            if summary.overall_automated_status == "FLAGGED":
+                verif.verification_result = "FLAGGED"
+                if asset:
+                    asset.verification_status = "FLAGGED"
+
+        flywheel_store.audit.record_event(
+            entity_type="VERIFICATION",
+            entity_id=verification_id,
+            action="EVIDENCE_PHOTO_UPLOADED",
+            actor_type="FIELD_OFFICER",
+            actor_id=verif.officer_id,
+            actor_name=verif.officer_name,
+            metadata={"filename": saved_filename, "sha256": sha256_hash, "status": verif.verification_result},
+        )
+        return verif
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post(
+    "/api/v1/verifications/{verification_id}/decision",
+    response_model=AssetVerification,
+    tags=["Verification"],
+)
+def record_verification_decision(verification_id: str, request: VerificationDecisionRequest):
+    """Record supervisory human review (confirmation or override) of field verification."""
+    try:
+        return flywheel_store.record_verification_decision(verification_id, request)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# =============================================================================
+# --- Impact Estimation & Methodologies ---
+# =============================================================================
+
+@app.get("/api/v1/impact", response_model=PortfolioImpactSummary, tags=["Impact"])
+def get_portfolio_impact_summary():
+    """Retrieve portfolio-level aggregated adaptation resilience and avoided emissions metrics."""
+    with flywheel_store._lock:
+        apps = list(flywheel_store.applications.values())
+        assets = list(flywheel_store.assets.values())
+    return ImpactEstimationEngine.aggregate_portfolio_impact(applications=apps, assets=assets)
+
+
+@app.get("/api/v1/impact/assets/{asset_id}", response_model=AssetImpactRecord, tags=["Impact"])
+def get_asset_impact_record(asset_id: str):
+    """Retrieve individual asset adaptation benefits and, if supported, emissions avoided calculations."""
+    with flywheel_store._lock:
+        if asset_id not in flywheel_store.assets:
+            raise HTTPException(status_code=404, detail=f"Resilience asset '{asset_id}' not found.")
+        asset = flywheel_store.assets[asset_id]
+    return ImpactEstimationEngine.calculate_asset_impact(asset)
+
+
+@app.get("/api/v1/impact/methodologies", response_model=List[ImpactMethodology], tags=["Impact"])
+def list_impact_methodologies():
+    """Retrieve registered published carbon and resilience methodologies."""
+    return list(IMPACT_METHODOLOGIES.values())
+
+
+@app.get("/api/v1/impact/methodologies/{methodology_id}", response_model=ImpactMethodology, tags=["Impact"])
+def get_methodology_details(methodology_id: str):
+    """Retrieve details and scientific citations for a specific impact methodology."""
+    try:
+        return get_methodology(methodology_id)
+    except KeyError as ke:
+        raise HTTPException(status_code=404, detail=str(ke))
+
+
+@app.get("/api/v1/impact/scenario", response_model=CarbonScenarioCalculation, tags=["Impact"])
+def calculate_carbon_scenario(
+    emissions_avoided_tco2e: float = Query(..., ge=0.0, description="Estimated tCO2e emissions avoided"),
+    price_usd: float = Query(15.0, ge=0.0, le=200.0, description="User-selected illustrative carbon price in USD/tCO2e"),
+):
+    """Calculate an illustrative economic scenario value for avoided emissions.
+    
+    Prominently labeled as an illustrative scenario; not certified credit revenue.
+    """
+    return ImpactEstimationEngine.calculate_carbon_scenario(
+        estimated_emissions_avoided_tco2e=emissions_avoided_tco2e,
+        carbon_price_usd_per_tonne=price_usd,
+    )
+
+
+# =============================================================================
+# --- Institutional Audit Trail ---
+# =============================================================================
+
+@app.get("/api/v1/audit", response_model=List[AuditEvent], tags=["Audit"])
+def get_audit_trail(
+    entity_id: Optional[str] = Query(None, description="Filter by entity ID (e.g. APP-DAR-001)"),
+    entity_type: Optional[str] = Query(None, description="Filter by entity type (APPLICATION, ASSET, VERIFICATION)"),
+    limit: int = Query(50, ge=1, le=200, description="Max events to return"),
+):
+    """Retrieve immutable chronological audit trail events."""
+    return flywheel_store.audit.list_events(entity_id=entity_id, entity_type=entity_type, limit=limit)
+
+
+# =============================================================================
+# --- Demo Scenario Management ---
+# =============================================================================
+
+@app.post("/api/v1/demo/reset", tags=["System"])
+def reset_demo_flywheel():
+    """Reset the interactive resilience finance flywheel database back to pristine demo state."""
+    flywheel_store.seed_demo_data()
+    return {
+        "status": "success",
+        "message": "Demo resilience finance and verification database reset to default state.",
+        "applications_seeded": len(flywheel_store.applications),
+        "assets_seeded": len(flywheel_store.assets),
+        "verifications_seeded": len(flywheel_store.verifications),
+    }
+
 

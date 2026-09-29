@@ -103,7 +103,89 @@ async function runAll() {
       assert.ok(data.cwc_gauge_records.length >= 3);
     });
 
-    console.log('\n🎉 ALL 11 END-TO-END REST ENDPOINTS VERIFIED & PASSING!\n');
+    // 12. Resilience Interventions Catalog
+    await testEndpoint('/api/v1/interventions', (data) => {
+      assert.strictEqual(data.length, 6, `Expected 6 interventions, got ${data.length}`);
+      assert.ok(data.some((i) => i.intervention_id === 'raised-hermetic-silo'));
+      assert.ok(data.some((i) => i.intervention_id === 'solar-irrigation-pump'));
+    });
+
+    // 13. Adaptation Recommendations for Hayaghat
+    await testEndpoint('/api/v1/interventions/recommendations/VIL-DAR-HAY', (data) => {
+      assert.strictEqual(data.village_id, 'VIL-DAR-HAY');
+      assert.ok(data.recommendations.length > 0);
+      assert.ok(data.recommendations[0].ranking_score > 0);
+    });
+
+    // 14. Indicative Green Finance Products
+    await testEndpoint('/api/v1/green-finance/products', (data) => {
+      assert.strictEqual(data.length, 3, `Expected 3 green finance products, got ${data.length}`);
+      assert.ok(data.some((p) => p.finance_product_id === 'prod-micro-adaptation'));
+    });
+
+    // 15. Loan Amortization & Scenario Simulation
+    const scenRes = await fetch(`${BASE_URL}/api/v1/green-finance/scenarios`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        intervention_cost_inr: 25000,
+        borrower_contribution_inr: 2500,
+        tenure_months: 18,
+        annual_interest_rate_pct: 18.0,
+      }),
+    });
+    assert.strictEqual(scenRes.status, 200);
+    const scenData = await scenRes.json();
+    assert.ok(scenData.estimated_installment_inr > 0);
+    console.log(`Testing /api/v1/green-finance/scenarios... ✓ OK (EMI: ₹${scenData.estimated_installment_inr})`);
+
+    // 16. Green Finance Applications
+    await testEndpoint('/api/v1/green-finance/applications', (data) => {
+      assert.ok(Array.isArray(data));
+      assert.ok(data.length >= 4, `Expected at least 4 demo applications, got ${data.length}`);
+    });
+
+    // 17. Tracked Resilience Assets
+    await testEndpoint('/api/v1/assets', (data) => {
+      assert.ok(Array.isArray(data));
+      assert.ok(data.length >= 2, `Expected at least 2 demo assets, got ${data.length}`);
+    });
+
+    // 18. Asset Verifications
+    await testEndpoint('/api/v1/verifications', (data) => {
+      assert.ok(Array.isArray(data));
+      assert.ok(data.length >= 1, `Expected at least 1 demo verification, got ${data.length}`);
+    });
+
+    // 19. Portfolio Impact Summary
+    await testEndpoint('/api/v1/impact', (data) => {
+      assert.ok(data.total_applications >= 4);
+      assert.ok(data.total_estimated_emissions_avoided_tco2e > 0);
+      assert.ok(data.total_capital_deployed_inr > 0);
+    });
+
+    // 20. Impact Methodologies
+    await testEndpoint('/api/v1/impact/methodologies', (data) => {
+      assert.strictEqual(data.length, 2, `Expected 2 methodologies, got ${data.length}`);
+      assert.ok(data.some((m) => m.methodology_id === 'UNFCCC-AMS-I.A'));
+      assert.ok(data.some((m) => m.methodology_id === 'FAO-POST-HARVEST-2021'));
+    });
+
+    // 21. Carbon Price Scenario Sensitivity
+    await testEndpoint('/api/v1/impact/scenario?emissions_avoided_tco2e=10.0&price_usd=20.0', (data) => {
+      assert.strictEqual(data.estimated_emissions_avoided_tco2e, 10.0);
+      assert.strictEqual(data.assumed_carbon_price_usd_per_tonne, 20.0);
+      assert.strictEqual(data.illustrative_annual_value_usd, 200.0);
+      assert.ok(data.illustrative_annual_value_inr > 0);
+    });
+
+    // 22. Audit Trail
+    await testEndpoint('/api/v1/audit', (data) => {
+      assert.ok(Array.isArray(data));
+      assert.ok(data.length >= 5, `Expected at least 5 audit events, got ${data.length}`);
+    });
+
+    console.log('\n🎉 ALL 22 END-TO-END REST ENDPOINTS VERIFIED & PASSING!\n');
   } catch (err) {
     console.error('\n❌ E2E API Verification failed:', err);
     process.exit(1);

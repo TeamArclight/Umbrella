@@ -15,6 +15,8 @@ import {
   MapPin,
   ExternalLink,
   ShieldCheck,
+  Smartphone,
+  BarChart3,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -53,7 +55,19 @@ const navItems = [
     href: '/green-finance',
     label: 'Green Adaptation',
     icon: Leaf,
-    badge: 'Resilience',
+    badge: 'Finance',
+  },
+  {
+    href: '/field-officer',
+    label: 'Field Verification',
+    icon: Smartphone,
+    badge: 'Mobile',
+  },
+  {
+    href: '/impact',
+    label: 'Resilience Impact',
+    icon: BarChart3,
+    badge: 'Dual-Track',
   },
   {
     href: '/methodology',

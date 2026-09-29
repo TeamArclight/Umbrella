@@ -128,3 +128,35 @@ Umbrella rigorously tracks the execution modality of every data stream using fiv
   - Acquisition dates: 2020-07-11, 2020-07-17, 2020-07-23, 2020-07-29.
   - Validation Status: `EVIDENCE_AVAILABLE_NOT_PROCESSED` (Instrument mode, orbit numbers, and polarizations cataloged).
 
+---
+
+### 7. Resilience Interventions & Green Finance Product Catalog
+- **Provider:** Curated Agricultural Resilience Catalog (`src/umbrella/engine/catalog.py`)
+- **Modality:** `DERIVED` / `SOURCED`
+- **Intervention Specifications**:
+  - `raised-hermetic-silo`: Metal/composite hermetic storage elevated on masonry plinth ($\ge 60\text{ cm}$). Derived from ICAR and IRRI post-harvest engineering standards.
+  - `solar-irrigation-pump`: 2 HP DC surface pump with elevated PV mount ($\ge 1.5\text{ m}$). Sourced from PM-KUSUM Component-B technical specifications.
+  - `portable-solar-dryer`: Polycarbonate greenhouse-tunnel dryer with DC ventilation fan. Derived from CSIR-CFTRI post-harvest preservation benchmarks.
+  - `flood-livestock-shelter`: Elevated communal/individual shed platform ($\ge 1.0\text{ m}$) with non-slip ramps and fodder racks.
+- **Financial Pricing Benchmarks**:
+  - Micro-adaptation rates ($16.0\% - 18.0\%$ p.a., 2% processing fee) modeled on Reserve Bank of India (Regulatory Framework for Microfinance Loans) Directions, 2022.
+
+---
+
+### 8. Climate Impact & Emissions Avoidance Provenance
+- **Methodology 1:** `UNFCCC-AMS-I.A` (Small-scale renewable electricity & heat generation).
+  - Scope: Stand-alone agricultural solar systems replacing diesel generation.
+  - Emission Factors:
+    - Ag Diesel: $2.68\text{ kg CO}_2\text{e/liter}$ (`SOURCED`, IPCC EFDB Mobile Agricultural Machinery).
+    - Grid Baseline: $0.71\text{ kg CO}_2\text{e/kWh}$ (`SOURCED`, CEA India Eastern Regional Grid v19).
+- **Methodology 2:** `FAO-POST-HARVEST-2021` (Food loss and waste prevention).
+  - Scope: Hermetic storage preventing spoilage of harvested paddy/wheat during monsoonal waterlogging.
+  - Baselines:
+    - North Bihar Monsoonal Spoilage Baseline: $15.0\%$ (`SOURCED`, ICAR Bihar post-harvest surveys).
+    - Embodied Carbon Footprint of Rice: $0.85\text{ kg CO}_2\text{e/kg}$ (`SOURCED`, IRRI / FAO Cradle-to-Farmgate LCA).
+- **Illustrative Economic Sensitivity Parameters**:
+  - Carbon Price Range: \$5 – \$50 / $\text{tCO}_2\text{e}$ (`DEMO_ASSUMPTION`, baseline \$15/tCO2e).
+  - Exchange Rate: ₹83.0 / \$1 USD (`DEMO_ASSUMPTION`).
+  - **Explicit Non-Credit Disclaimer**: All avoided carbon outputs are tagged `ESTIMATED_EMISSIONS_AVOIDED` and carry non-negotiable disclaimers that they are not certified carbon credits or tradable offsets.
+
+
