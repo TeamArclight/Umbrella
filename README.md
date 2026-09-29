@@ -188,12 +188,16 @@ Every data point in Umbrella is marked with explicit provenance:
 
 ## 8. Documentation Index
 
+- [Final Audit & Hardening Report](file:///docs/FINAL_AUDIT.md)
+- [Product Truth Table (Evaluator Guide)](file:///docs/PRODUCT_TRUTH_TABLE.md)
+- [Upstream Source & Data Register](file:///docs/SOURCE_REGISTER.md)
+- [Demo Resilience & Offline Playbook](file:///docs/DEMO_RESILIENCE.md)
+- [End-to-End Demo Flow & 3-Min Script](file:///docs/DEMO_FLOW.md)
 - [System Architecture](file:///docs/ARCHITECTURE.md)
 - [Green Finance & Amortization Engine](file:///docs/GREEN_FINANCE.md)
 - [Physical Asset Verification Protocol](file:///docs/VERIFICATION.md)
 - [Climate Impact & Emissions Avoidance Methodology](file:///docs/IMPACT_METHODOLOGY.md)
 - [Lifecycle State Machine](file:///docs/STATE_MACHINE.md)
-- [End-to-End Demo Flow Guide](file:///docs/DEMO_FLOW.md)
 - [Data Provenance & Modality Register](file:///docs/DATA_PROVENANCE.md)
 - [Flood Hazard Model v1.0](file:///docs/FLOOD_HAZARD_MODEL.md)
 - [Pilot Selection (Darbhanga, Bihar)](file:///docs/PILOT_SELECTION.md)
@@ -203,7 +207,8 @@ Every data point in Umbrella is marked with explicit provenance:
 
 ## 9. Current Development Status
 
-- **Status**: Production-ready Closed-Loop Climate Adaptation Flywheel.
-- **Backend**: Verified FastAPI REST service with 91 passing tests (100% pass rate) across 13 test suites.
+- **Status**: Production-ready Closed-Loop Climate Adaptation Flywheel (Audited & Demo-Hardened).
+- **Backend**: Verified FastAPI REST service with 98 passing tests (100% pass rate) across 14 test suites with 86% statement coverage.
 - **Frontend**: Next.js 14 App Router application with 11 production routes compiled, zero TypeScript errors, mobile-friendly field officer interface, and interactive impact dashboards.
+- **Resilience**: Full deterministic offline mock fallback support with transparent provenance badging and global status bar monitoring.
 - **Pilot Geography**: Darbhanga District, Bihar (10 operational clusters, July 2020 North Bihar Flood event).

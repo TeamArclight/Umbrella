@@ -193,23 +193,42 @@ export interface MFIRecommendationResponse {
 
 export interface UmbrellaWeatherDaily {
   date: string;
+  forecast_date?: string;
   precipitation_mm: number;
+  rainfall_mm?: number;
   precipitation_probability_pct?: number;
+  temperature_max_c?: number;
+  temperature_min_c?: number;
   temperature_max_celsius?: number;
   temperature_min_celsius?: number;
+  apparent_temperature_max_c?: number;
+  wind_speed_max_kmh?: number;
+  soil_moisture_m3m3?: number;
   soil_moisture_0_to_10cm_m3m3?: number;
 }
 
 export interface UmbrellaWeatherForecast {
   latitude: number;
   longitude: number;
+  elevation_m?: number;
+  timezone?: string;
   forecast_horizon_days: number;
-  source_mode: ProvenanceMode;
-  provider: string;
+  forecast_start_date?: string;
+  forecast_end_date?: string;
+  source_mode?: ProvenanceMode;
+  data_source_mode: ProvenanceMode;
+  provider?: string;
+  provider_name?: string;
+  attribution?: string;
   daily_forecasts: UmbrellaWeatherDaily[];
   total_accumulated_precipitation_mm: number;
+  cumulative_rainfall_mm?: number;
   max_daily_burst_precipitation_mm: number;
-  generated_at: string;
+  peak_single_day_rainfall_mm?: number;
+  mean_soil_moisture_m3m3?: number;
+  retrieved_at?: string;
+  generated_at?: string;
+  fallback_reason?: string | null;
 }
 
 export interface VillagePipelineResult {
@@ -690,7 +709,8 @@ export interface PortfolioImpactSummary {
     intervention_name: string;
     count: number;
     verified_count: number;
-    emissions_avoided_tco2e?: number;
+    mitigation_status?: 'APPLICABLE' | 'NOT_APPLICABLE' | string;
+    emissions_avoided_tco2e?: number | null;
   }>;
   breakdown_by_village: Array<{
     village_id: string;

@@ -728,7 +728,7 @@ def submit_field_verification(request: VerificationCreateRequest):
         return flywheel_store.submit_verification(request)
     except KeyError as ke:
         raise HTTPException(status_code=404, detail=str(ke))
-    except ValueError as ve:
+    except (InvalidStateTransitionError, ValueError) as ve:
         raise HTTPException(status_code=400, detail=str(ve))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
@@ -811,6 +811,8 @@ def record_verification_decision(verification_id: str, request: VerificationDeci
         return flywheel_store.record_verification_decision(verification_id, request)
     except KeyError as ke:
         raise HTTPException(status_code=404, detail=str(ke))
+    except (InvalidStateTransitionError, ValueError) as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 

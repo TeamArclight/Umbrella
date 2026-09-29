@@ -135,3 +135,34 @@ def test_savings_and_payback_hermetic_silo():
     assert res.savings_payback.estimated_annual_savings_inr > 4000.0
     assert res.savings_payback.simple_payback_years is not None
     assert 2.0 <= res.savings_payback.simple_payback_years <= 5.0
+
+
+def test_zero_contribution_full_financing():
+    """Verify 100% financed principal when borrower contribution is 0."""
+    req = FinancingScenarioRequest(
+        intervention_cost_inr=25000.0,
+        borrower_contribution_inr=0.0,
+        annual_interest_rate_pct=10.0,
+        tenure_months=12,
+        repayment_frequency="MONTHLY",
+    )
+    res = FinancingCalculator.calculate_scenario(req)
+    assert res.financed_principal_inr == 25000.0
+    assert res.borrower_contribution_inr == 0.0
+    assert res.number_of_installments == 12
+    assert res.total_repayment_inr > 25000.0
+
+
+def test_unsupported_intervention_payback():
+    """Verify interventions without direct fuel/crop loss displacement return supported=False."""
+    req = FinancingScenarioRequest(
+        intervention_cost_inr=65000.0,
+        borrower_contribution_inr=15000.0,
+        annual_interest_rate_pct=12.0,
+        tenure_months=24,
+    )
+    res = FinancingCalculator.calculate_scenario(req, intervention_id="flood-livestock-shelter")
+    assert res.savings_payback.supported is False
+    assert res.savings_payback.simple_payback_years is None
+    assert res.savings_payback.estimated_annual_savings_inr == 0.0
+

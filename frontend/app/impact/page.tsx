@@ -275,8 +275,14 @@ export default function ImpactPage() {
                       </td>
                       <td className="py-2.5 text-center text-slate-400">{item.count}</td>
                       <td className="py-2.5 text-center text-emerald-400 font-bold">{item.verified_count}</td>
-                      <td className="py-2.5 text-right text-emerald-300">
-                        {item.emissions_avoided_tco2e ? `${item.emissions_avoided_tco2e.toFixed(2)} t` : '—'}
+                      <td className="py-2.5 text-right">
+                        {item.mitigation_status === 'NOT_APPLICABLE' || item.emissions_avoided_tco2e === null || item.emissions_avoided_tco2e === undefined ? (
+                          <span className="text-slate-500 font-sans text-[10px]">N/A (Adaptation Only)</span>
+                        ) : (
+                          <span className="text-emerald-300 font-mono font-medium">
+                            {Number(item.emissions_avoided_tco2e).toFixed(2)} t
+                          </span>
+                        )}
                       </td>
                     </tr>
                   ))}

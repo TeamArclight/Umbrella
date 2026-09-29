@@ -53,10 +53,25 @@ export default function LiveRiskPage() {
         horizon={horizon}
         onHorizonChange={setHorizon}
         onRefresh={() => loadData(horizon)}
-        sourceMode={selectedVillage?.flood_hazard.data_source_mode || 'LIVE'}
+        sourceMode={selectedVillage?.flood_hazard.data_source_mode || selectedVillage?.weather_forecast?.data_source_mode || 'LIVE'}
       />
 
       <div className="p-6 space-y-6 flex-1">
+        {/* Offline / Mock Fallback Alert Banner */}
+        {(selectedVillage?.weather_forecast?.data_source_mode === 'MOCK' || selectedVillage?.flood_hazard.data_source_mode === 'MOCK') && (
+          <div className="p-3 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs font-medium flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
+              <span>
+                <strong>DEMO / MOCK DATA ACTIVE:</strong> Live meteorological feed fell back to validated deterministic mock data ({selectedVillage?.weather_forecast?.fallback_reason || 'Network offline or upstream API rate limit'}).
+              </span>
+            </div>
+            <span className="text-[10px] uppercase tracking-wider font-mono bg-amber-500/20 border border-amber-500/30 px-2 py-0.5 rounded text-amber-200 shrink-0 self-start sm:self-auto">
+              Offline Demonstration Mode
+            </span>
+          </div>
+        )}
+
         {/* Prominent Provenance Header */}
         <div className="p-4 rounded-xl border border-slate-800 bg-[#0f172a] flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -73,7 +88,7 @@ export default function LiveRiskPage() {
 
           <div className="flex items-center gap-3">
             <ProvenanceBadge
-              mode={selectedVillage?.weather_forecast?.source_mode || 'LIVE'}
+              mode={selectedVillage?.weather_forecast?.data_source_mode || selectedVillage?.weather_forecast?.source_mode || 'LIVE'}
               size="lg"
             />
           </div>

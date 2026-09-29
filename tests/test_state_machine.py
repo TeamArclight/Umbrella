@@ -112,3 +112,38 @@ def test_rejection_and_redrafting():
     # Allow returning to DRAFT for amendment
     ApplicationStateMachine.validate_transition(app, "DRAFT")
     app.status = "DRAFT"
+
+
+def test_adversarial_and_bypass_transitions():
+    """Verify that adversarial lifecycle bypass attacks are strictly rejected."""
+    # Bypass 1: UNDER_REVIEW directly to VERIFIED
+    app_review = make_dummy_app("UNDER_REVIEW")
+    with pytest.raises(InvalidStateTransitionError):
+        ApplicationStateMachine.validate_transition(app_review, "VERIFIED")
+
+    # Bypass 2: APPROVED directly to CLOSED (skipping disbursement & verification)
+    app_approved = make_dummy_app("APPROVED")
+    with pytest.raises(InvalidStateTransitionError):
+        ApplicationStateMachine.validate_transition(app_approved, "CLOSED")
+
+    # Bypass 3: DISBURSED directly to VERIFIED (skipping installation & verification pending)
+    app_disbursed = make_dummy_app("DISBURSED")
+    with pytest.raises(InvalidStateTransitionError):
+        ApplicationStateMachine.validate_transition(app_disbursed, "VERIFIED")
+
+    # Bypass 4: CLOSED directly to UNDER_REVIEW (reopening closed application)
+    app_closed = make_dummy_app("CLOSED")
+    with pytest.raises(InvalidStateTransitionError):
+        ApplicationStateMachine.validate_transition(app_closed, "UNDER_REVIEW")
+
+    # Bypass 5: REJECTED directly to APPROVED without going through review
+    app_rejected = make_dummy_app("REJECTED")
+    decision = HumanDecision(
+        decision="APPROVED",
+        officer_id="OFF-ATTACK",
+        officer_name="Unauthorized Override",
+        reason="Forced override",
+    )
+    with pytest.raises(InvalidStateTransitionError):
+        ApplicationStateMachine.validate_transition(app_rejected, "APPROVED", human_decision=decision)
+

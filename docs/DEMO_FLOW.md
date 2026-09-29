@@ -1,111 +1,43 @@
-# Umbrella End-to-End Flywheel Demo Flow
+# Umbrella 3-Minute Live Demonstration Flow & Pitch Script
 
-## 1. Overview & Narrative
-
-This walkthrough guides reviewers, MFI risk executives, and examiners through Umbrella's complete closed-loop climate microfinance flywheel:
-
-$$\text{Climate Hazard} \longrightarrow \text{Portfolio Exposure} \longrightarrow \text{Recommendation} \longrightarrow \text{Green Financing} \longrightarrow \text{Field Verification} \longrightarrow \text{Traceability} \longrightarrow \text{Impact Estimation}$$
-
-Every stage grounds mathematical rigor, auditable human oversight, and absolute separation of physical risk from financial exposure.
+**Platform:** Umbrella — Climate-Adaptive Microfinance Platform  
+**Target Repository:** `TeamArclight/Umbrella`  
+**Pitch Duration:** 3 Minutes (180 Seconds)  
+**Presenter Roles:** Lead Architect / Presenter  
 
 ---
 
-## 2. Step-by-Step Guided Walkthrough
+## 1. 3-Minute Walkthrough Matrix
 
-### Step 1: Real India Pilot & Decoupled Climate Risk
-- **Navigate to**: `http://localhost:3000/dashboard` or `/live-risk`
-- **What to Observe**:
-  - Operational Command Center focused on **Darbhanga District, Bihar** across 10 operational clusters (Hayaghat, Kusheshwar Asthan, Biraul, Ghanshyampur, etc.).
-  - **Decoupling Axiom in Action**: Notice how Physical Hazard (0–100) is derived purely from rainfall, soil moisture, elevation, and river proximity. Portfolio Exposure (Outstanding ₹) is displayed independently.
-  - Click on **Hayaghat** on the interactive map:
-    - View the 5-component Hazard Explainability breakdown (Forecast Accumulation 35%, Peak Burst 25%, Soil Saturation 15%, Historical Anomaly 15%, Terrain Susceptibility 10%).
-    - Note the Operational Priority Index combining 60% Hazard and 40% Exposure.
-
-### Step 2: Historical Flood Replay & Ground-Truth Validation
-- **Navigate to**: `http://localhost:3000/historical-replay`
-- **What to Observe**:
-  - Replay the catastrophic **July 2020 North Bihar Flood Event** (`event-darbhanga-2020`).
-  - Scrub across the multi-day progression timeline.
-  - Review the ground-truth Sentinel-1 SAR Copernicus flood extent evidence cards and ERA5 retrospective validation.
-
-### Step 3: Climate-Ground Adaptation Recommendations
-- **Navigate to**: `http://localhost:3000/actions` or `/green-finance`
-- **What to Observe**:
-  - High flood hazard in Hayaghat triggers automated adaptation recommendations.
-  - Select **Hayaghat Cluster** in the dropdown.
-  - Notice the prioritized interventions:
-    1. **Raised Hermetic Grain Silo** (Suitability 94/100, designed for flood storage preservation).
-    2. **Portable Solar Grain Dryer** (Suitability 88/100, prevents post-flood mold spoilage).
-    3. **Flood-Resilient Elevated Livestock Shelter** (Suitability 82/100, protects smallholder dairy/goats).
-  - Inspect the transparent trigger rationale, exclusions, and technical specifications.
-
-### Step 4: Green Finance Simulation & Application Submission
-- **Navigate to**: `http://localhost:3000/green-finance`
-- **What to Observe**:
-  - Scroll to **Step 2: Indicative Loan Amortization Calculator**.
-  - Select Product: **Micro-Adaptation Loan (`prod-micro-adaptation`)**.
-  - Adjust the inputs:
-    - Asset Capital Cost: ₹25,000
-    - Borrower Down Payment: ₹2,500 (Net Financed: ₹22,500)
-    - Loan Tenure: 18 Months
-    - Annual Interest Rate: 18.0% p.a.
-  - Observe instant deterministic recalculation:
-    - Monthly Installment (EMI): ₹1,436 / month
-    - Total Interest: ₹3,348
-    - Upfront Processing Fee (2%): ₹450
-    - Estimated Annual Operational Benefit: ₹7,800 / year
-    - Simple Payback Period: ~2.9 years
-  - Scroll to **Step 3: Submit New Application**:
-    - Enter Borrower Name (e.g., "Devi Sharma"), Village ("Hayaghat"), and click **Submit Application**.
-    - An application is generated with status `UNDER_REVIEW`.
-
-### Step 5: Human Officer Credit Appraisal
-- **On the same page (`/green-finance`)**:
-  - Scroll down to **Step 4: Pending Loan Applications**.
-  - Expand the application for review.
-  - Note the non-negotiable warning: *Decision support only — Automated approval is strictly prohibited.*
-  - Enter Officer ID (e.g., `OFFICER-PATNA-04`) and review notes (e.g., `Field inspection completed; borrower owns elevated platform; approved for JLG Cycle 3`).
-  - Click **Approve Application**.
-  - Application transitions to `APPROVED`. Click **Disburse & Create Asset** to transition to `DISBURSED` and spawn a tracked `ResilienceAsset`.
-
-### Step 6: Mobile Field Officer Verification
-- **Navigate to**: `http://localhost:3000/field-officer`
-- **What to Observe**:
-  - Responsive field audit layout designed for low-bandwidth mobile tablets.
-  - Select the newly installed asset or an existing demo asset (`ASSET-DAR-001`).
-  - Complete the dynamic physical inspection checklist (Plinth height $\ge 60$cm, Hermetic seal intact, Concrete base anchored).
-  - Test the **Geofence Verification**:
-    - Enter coordinates matching Hayaghat (`25.9620, 85.9080`): Result shows `PASS (<500m)`.
-    - Enter distant coordinates (`26.5000, 86.2000`): Result automatically updates to `FLAG (>2000m)`.
-  - Upload evidence photo:
-    - Engine tests magic bytes (JPEG/PNG/WebP) and computes SHA-256 hash.
-  - Enter Field Inspector ID and submit **Final Verification Decision** (`VERIFIED`).
-
-### Step 7: Complete Asset Traceability View
-- **Navigate to**: `http://localhost:3000/assets/asset-demo-001` (or click View Details on any asset)
-- **What to Observe**:
-  - Comprehensive chronological audit trail from hazard alert to post-installation impact:
-    - Hazard Level $\rightarrow$ Adaptation Recommendation $\rightarrow$ Application $\rightarrow$ Human Decision $\rightarrow$ Disbursement $\rightarrow$ Physical Installation $\rightarrow$ Field Verification $\rightarrow$ Realized Impact.
-  - Full cryptographic verification evidence and append-only audit trail logs.
-
-### Step 8: Resilience Impact & Carbon Scenario Modeling
-- **Navigate to**: `http://localhost:3000/impact`
-- **What to Observe**:
-  - **Dual-Track Impact Dashboard**:
-    - Track 1 (Primary Adaptation): 42.5 metric tons of grain protected, ₹4.85 lakh losses prevented, 120 households made flood-resilient.
-    - Track 2 (Activity-Based Emissions Avoided): 18.42 $\text{tCO}_2\text{e}$ calculated strictly via `UNFCCC AMS-I.A` and `FAO Post-Harvest (2021)`.
-  - **Illustrative Carbon Scenario Sensitivity Slider**:
-    - Drag the price slider from \$5 to \$50 / $\text{tCO}_2\text{e}$.
-    - Observe dynamic illustrative blended finance value in USD and INR.
-    - Note the bold institutional disclaimer: *Strictly uncertified operational proxy; not tradeable carbon credits.*
-  - Review the embedded methodology documentation cards with transparent baseline equations.
+| Screen & URL | Action | What to Say (Verbatim / Core Idea) | What NOT to Claim | Expected Result | Fallback Protocol |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Minute 0:00 – 0:35**<br>**Command Center**<br>`/` | Land on Command Center. Point to Darbhanga, Bihar district map, 10 operational clusters, and the decoupling metric cards. | *"This is Umbrella — the climate risk command center for rural microfinance. In flood-prone districts like Darbhanga, Bihar, climate shocks devastate vulnerable Joint Liability Groups. Umbrella begins with an unbreakable scientific principle: Physical climate hazard does NOT change simply because an MFI has more loans in a village. We strictly separate physical hazard from financial portfolio exposure."* | **DO NOT claim:**<br>• We predict borrower credit defaults.<br>• We replace credit bureaus.<br>• We use real borrower names. | Interactive map renders 10 clusters with live hazard badges; Hayaghat highlighted with high operational priority. Global status bar shows API connected. | If backend is offline, status bar turns red; restart backend via terminal. In offline mode, map and clusters load from cached local GeoJSON seamlessly. |
+| **Minute 0:35 – 1:05**<br>**Live Risk Monitor**<br>`/live-risk` | Switch forecast horizon from 3-day to 5-day to 7-day. Click on Hayaghat cluster to show 5-factor hazard explainability. | *"Umbrella ingests high-resolution ensemble weather forecasts directly from Open-Meteo. Our versioned Flood Hazard Model v1.0 evaluates rainfall burst, accumulated precipitation, antecedent soil moisture, and local elevation. Notice the green 'LIVE' badge. Instead of waiting for default after a flood, Umbrella detects exposure in advance to trigger proactive resilience."* | **DO NOT claim:**<br>• This is our proprietary satellite radar in space.<br>• AI generates these weather forecasts. | Dynamic recalculation of rainfall totals and hazard scores across 3, 5, and 7-day horizons. Detailed daily bar cards appear. | If internet is down or Open-Meteo rate-limits, amber alert banner appears: `DEMO / MOCK DATA ACTIVE`. Point to amber badge as proof of demo resilience. |
+| **Minute 1:05 – 1:35**<br>**Historical Replay**<br>`/historical-replay` | Scrub the July 2020 flood replay slider to July 24, 2020. Show Copernicus Sentinel-1 SAR evidence and ERA5 reanalysis. | *"We backtested our model against the catastrophic July 2020 North Bihar flood. Here, ERA5 reanalysis and Copernicus Sentinel-1 radar ground-truth validate how Umbrella would have alerted branch managers 5 days before peak inundation breached the Bagmati river embankments at Hayaghat."* | **DO NOT claim:**<br>• We have live real-time Sentinel-1 streaming.<br>• We detect individual houses from space. | Inundation extent, river gauge levels (48.68m danger mark), and ERA5 precipitation charts update chronologically. | Replay data is fully local in `HistoricalEventReplayEngine`. Works 100% offline with zero dependencies. |
+| **Minute 1:35 – 2:10**<br>**Green Finance & Human Authorization**<br>`/green-finance` | Select Hayaghat, show rule-based recommendations (Hermetic Silo, Solar Pump). Test reducing EMI calculator. Click 'Approve Application' as human officer. | *"Early warning is useless without proactive finance. Umbrella recommends pre-screened adaptation assets tailored to local livelihoods. Here, we calculate a transparent reducing-balance loan for a ₹25,000 elevated grain silo. Most importantly: Umbrella strictly rejects autonomous AI approvals. Every green loan requires explicit human credit officer authorization with timestamped audit notes."* | **DO NOT claim:**<br>• AI autonomously approved this loan.<br>• Blockchain smart contracts disburse funds. | Amortization schedule calculates EMI (₹1,436/mo). Application transitions from `UNDER_REVIEW` to `APPROVED` to `DISBURSED`, spawning a tracked `ResilienceAsset`. | If state machine transition is attempted illegally, deterministic HTTP 400 alert prevents invalid jump. |
+| **Minute 2:10 – 2:40**<br>**Field Verification**<br>`/field-officer` | Open mobile field inspector UI. Enter matching GPS coordinates (PASS). Demonstrate SHA-256 duplicate image check. | *"How does the lender verify the asset was actually deployed? Our mobile field inspector interface validates physical installation. It checks mandatory checklists, verifies GPS geofencing within 1000m, and performs cryptographic SHA-256 hash checking to prevent recycling demonstration photos across multiple loan files."* | **DO NOT claim:**<br>• Computer vision AI scans the picture for fraud.<br>• Facial recognition verifies the borrower. | GPS distance displays <500m (PASS). Uploaded photo generates unique SHA-256 hash. Status transitions to `VERIFIED`. | If GPS is out of bounds (>1000m), system displays amber `FLAGGED` status and prompts human supervisor review. |
+| **Minute 2:40 – 3:00**<br>**Dual-Track Impact & Carbon Scenario**<br>`/impact` | Navigate to Impact dashboard. Highlight Track 1 (Resilience) vs Track 2 (Uncertified Avoided Emissions). Adjust carbon scenario slider. | *"Finally, Umbrella closes the loop with dual-track impact reporting. Track 1 measures real adaptation: grain saved, livestock sheltered, and microfinance borrowers protected. Track 2 computes uncertified activity-based emissions avoided using UNFCCC AMS-I.A methodologies for displaced diesel pumping. We provide scenario valuation for blended finance without making fake carbon credit claims."* | **DO NOT claim:**<br>• These are certified tradable carbon credits.<br>• Verra or Gold Standard certified this project. | Portfolio summary renders verified assets, borrowers covered, and avoided $t\text{CO}_2\text{e}$. Slider dynamically updates illustrative INR/USD economic scenarios. | Pre-calculated aggregates load instantly from in-memory engine. |
 
 ---
 
-## 3. Demo Reset Utility
+## 2. Key Speaking Transitions (Memorize These)
 
-To reset the database back to its pristine seed state at any time during a live presentation:
-- Click the **Reset Demo State** button in the top navigation or execute:
-```bash
-curl -X POST http://localhost:8000/api/v1/demo/reset
-```
+1. **Opening Hook (0:00):**  
+   *"When floods hit rural Bihar, microfinance borrowers lose their crops, their assets, and their livelihoods. Umbrella turns reactive recovery into proactive, climate-adaptive microfinance."*
+
+2. **Decoupling Axiom (0:25):**  
+   *"A village's physical flood hazard must not increase simply because an MFI disbursed ₹80 lakh in loans there versus ₹2 lakh. Hazard is physics; exposure is finance."*
+
+3. **Human Governance (1:45):**  
+   *"Umbrella does not replace human credit officers with a black-box AI. It empowers them with explainable climate intelligence and enforces mandatory human loan authorization."*
+
+4. **Honest Carbon Accounting (2:45):**  
+   *"We do not sell unverified carbon credits. We calculate defensible, activity-based proxy emissions according to published UNFCCC formulas to unlock legitimate blended finance."*
+
+---
+
+## 3. Emergency Presentation Fallbacks
+
+* **Wi-Fi Down:** Do not panic. Refresh `/live-risk`. The system automatically displays the amber `MOCK` fallback badge and banner. State: *"Notice our resilient architecture: Umbrella automatically falls back to deterministic, pre-validated mock data without crashing."*
+* **Browser Reload:** All pages are standard client-side Next.js routes. Hit CTRL+R anytime without losing application state (backend in-memory store persists across frontend reloads).
+* **Resetting Data:** If you ran through a demo loan and want a clean slate before presenting to a judge, call `POST http://localhost:8000/api/v1/demo/reset` or restart `uvicorn`.

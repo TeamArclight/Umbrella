@@ -204,19 +204,25 @@ class ImpactEstimationEngine:
         for asset in assets:
             iid = asset.intervention_id
             if iid not in intervention_map:
+                supports_mitigation = (ImpactEstimationEngine._calculate_emissions_avoided(iid) is not None)
                 intervention_map[iid] = {
                     "intervention_id": iid,
                     "intervention_name": asset.intervention_name,
                     "count": 0,
                     "verified_count": 0,
-                    "emissions_avoided_tco2e": 0.0,
+                    "mitigation_status": "APPLICABLE" if supports_mitigation else "NOT_APPLICABLE",
+                    "emissions_avoided_tco2e": 0.0 if supports_mitigation else None,
                 }
             intervention_map[iid]["count"] += 1
             if asset.verification_status == "VERIFIED":
                 intervention_map[iid]["verified_count"] += 1
                 rec = ImpactEstimationEngine.calculate_asset_impact(asset)
-                if rec.emissions_avoided:
-                    intervention_map[iid]["emissions_avoided_tco2e"] += rec.emissions_avoided.estimated_emissions_avoided_tco2e_per_year
+                if rec.emissions_avoided and intervention_map[iid]["emissions_avoided_tco2e"] is not None:
+                    current_avoided = intervention_map[iid]["emissions_avoided_tco2e"] or 0.0
+                    intervention_map[iid]["emissions_avoided_tco2e"] = round(
+                        current_avoided + rec.emissions_avoided.estimated_emissions_avoided_tco2e_per_year,
+                        3,
+                    )
 
         # Breakdown by village
         village_map: Dict[str, Dict[str, Any]] = {}

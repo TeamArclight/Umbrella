@@ -162,3 +162,46 @@ def test_checklist_completeness():
     rev_res = VerificationEngine.check_checklist_completeness(items, {"chk1": True, "chk2": False})
     assert rev_res.status == "REVIEW"
     assert "Item 2" in rev_res.details
+
+
+def test_png_and_webp_valid_uploads(verification_engine):
+    """Verify PNG and WebP magic bytes are correctly detected and saved with safe extensions."""
+    # PNG
+    fake_png = b"\x89PNG\r\n\x1a\n" + b"\x00\x00\x00\rIHDR" + b"pngdata123"
+    png_fn, png_hash = verification_engine.validate_and_save_photo(fake_png, "photo.png")
+    assert png_fn.endswith(".png")
+    assert png_hash == hashlib.sha256(fake_png).hexdigest()
+
+    # WebP
+    fake_webp = b"RIFF\x14\x00\x00\x00WEBPVP8 " + b"webpdata123"
+    webp_fn, webp_hash = verification_engine.validate_and_save_photo(fake_webp, "photo.webp")
+    assert webp_fn.endswith(".webp")
+    assert webp_hash == hashlib.sha256(fake_webp).hexdigest()
+
+
+def test_disguised_non_supported_formats(verification_engine):
+    """Verify GIF, PDF, and executable headers disguised as .jpg or .png are blocked."""
+    # Disguised GIF
+    gif_data = b"GIF89a\x01\x00\x01\x00\x80\x00\x00"
+    with pytest.raises(ValueError, match="Invalid or corrupted image format"):
+        verification_engine.validate_and_save_photo(gif_data, "animation.jpg")
+
+    # Disguised Windows Executable (MZ header)
+    exe_data = b"MZ\x90\x00\x03\x00\x00\x00"
+    with pytest.raises(ValueError, match="Invalid or corrupted image format"):
+        verification_engine.validate_and_save_photo(exe_data, "installer.png")
+
+
+def test_extreme_geofence_out_of_bounds():
+    """Verify extreme geographic distance (e.g. other hemisphere) results in massive offset and FLAG."""
+    # Darbhanga vs South Pole / Southern Ocean (-75.0, 0.0)
+    flag_res = VerificationEngine.check_gps_consistency(
+        submitted_lat=-75.0,
+        submitted_lon=0.0,
+        expected_lat=25.9865,
+        expected_lon=85.9082,
+    )
+    assert flag_res.status == "FLAG"
+    assert flag_res.metrics["distance_meters"] > 10_000_000  # > 10,000 km
+    assert "SPATIAL DISCREPANCY FLAGGED" in flag_res.details
+

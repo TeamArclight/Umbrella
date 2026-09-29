@@ -55,7 +55,7 @@ export function GlobalStatusBar() {
         <div className="flex items-center gap-1.5">
           <Radio className="w-3 h-3 text-sky-400" />
           <span className="text-slate-400">Weather:</span>
-          <span className="text-sky-300">Open-Meteo (LIVE)</span>
+          <span className="text-sky-300">Open-Meteo (Live / Fallback)</span>
         </div>
 
         <div className="h-3 w-px bg-slate-800 hidden lg:block" />

@@ -121,3 +121,33 @@ def test_portfolio_impact_aggregation():
     assert summary.verification_rate_pct == 100.0
     assert summary.borrowers_covered == 2
     assert summary.total_estimated_emissions_avoided_tco2e > 1.5
+
+
+def test_breakdown_distinguishes_mitigation_vs_pure_adaptation():
+    """Verify portfolio breakdown marks pure adaptation assets with NOT_APPLICABLE status and None emissions."""
+    apps = [
+        GreenFinanceApplication(
+            application_id="APP-ADAPT-1",
+            village_id="VIL-1",
+            village_name="Village 1",
+            borrower_group_id="JLG-1",
+            borrower_name="Borrower C",
+            livelihood="DAIRY_AND_LIVESTOCK",
+            intervention_id="flood-livestock-shelter",
+            finance_product_id="prod-community-resilience",
+            requested_amount_inr=65000.0,
+            approved_amount_inr=65000.0,
+            status="VERIFIED",
+        ),
+    ]
+    assets = [
+        make_dummy_asset("flood-livestock-shelter", village_id="VIL-1", verif_status="VERIFIED"),
+    ]
+
+    summary = ImpactEstimationEngine.aggregate_portfolio_impact(applications=apps, assets=assets)
+    assert len(summary.breakdown_by_intervention) == 1
+    item = summary.breakdown_by_intervention[0]
+    assert item["intervention_id"] == "flood-livestock-shelter"
+    assert item["mitigation_status"] == "NOT_APPLICABLE"
+    assert item["emissions_avoided_tco2e"] is None
+
