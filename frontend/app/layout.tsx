@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className="bg-[#090d16] text-slate-100 min-h-screen antialiased">
         <PresentationModeBar />
         <Sidebar />
-        <main className="ml-64 min-h-screen pb-12 flex flex-col">
+        <main className="md:ml-64 ml-0 pt-14 md:pt-0 min-h-screen pb-12 flex flex-col">
           {children}
         </main>
         <GlobalStatusBar />

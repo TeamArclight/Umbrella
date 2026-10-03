@@ -33,7 +33,7 @@ export function GlobalStatusBar() {
   }, []);
 
   return (
-    <footer className="h-8 bg-[#070a10] border-t border-slate-800/80 fixed bottom-0 left-64 right-0 z-30 px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 select-none">
+    <footer className="h-8 bg-[#070a10] border-t border-slate-800/80 fixed bottom-0 left-0 md:left-64 right-0 z-30 px-4 md:px-6 flex items-center justify-between text-[11px] font-mono text-slate-400 select-none">
       <div className="flex items-center gap-5">
         {/* Backend API status */}
         <div className="flex items-center gap-1.5">

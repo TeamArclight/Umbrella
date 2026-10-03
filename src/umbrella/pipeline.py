@@ -131,9 +131,17 @@ class UmbrellaPipeline:
         self,
         forecast_horizon_days: int = 5,
         evaluation_month: int = 7,
+        district: Optional[str] = "Darbhanga",
+        state: Optional[str] = "Bihar",
     ) -> List[VillagePipelineResult]:
-        """Execute pipeline across all registered pilot villages."""
-        villages = list_pilot_villages()
+        """Execute pipeline across monitored pilot clusters in the pilot district."""
+        if district and district.lower() == "all":
+            villages = list_pilot_villages()
+        else:
+            villages = list_pilot_villages(state=state, district=district)
+            if not villages:
+                villages = list_pilot_villages()
+
         results: List[VillagePipelineResult] = []
         for v in villages:
             res = self.evaluate_village(

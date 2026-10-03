@@ -261,6 +261,8 @@ class HistoricalEventReplayEngine:
                 "village_name": c.village_name,
                 "block_name": c.block_name or c.village_name,
                 "nearest_river": c.nearest_river or "Local Drainage",
+                "latitude": c.latitude,
+                "longitude": c.longitude,
                 "elevation_m": c.terrain.elevation_m,
                 "slope_pct": c.terrain.slope_gradient_pct,
                 "drainage_score": c.terrain.drainage_capacity_score,
@@ -271,6 +273,9 @@ class HistoricalEventReplayEngine:
                 "priority_score": snap.impact.priority_score,
                 "priority_level": snap.impact.priority_level,
                 "climate_impact_level": snap.impact.priority_level,
+                "hazard": snap.hazard.model_dump(),
+                "exposure": snap.exposure.model_dump(),
+                "impact": snap.impact.model_dump(),
                 "operational_action": (
                     snap.recommendations.system_recommendation.operational_advisories[0]
                     if snap.recommendations.system_recommendation.operational_advisories

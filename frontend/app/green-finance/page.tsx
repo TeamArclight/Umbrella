@@ -363,7 +363,9 @@ export default function GreenFinancePage() {
                 <div className="flex justify-between text-slate-400">
                   <span>Crops Cultivated:</span>
                   <span className="text-slate-200">
-                    {(selectedVillage as any).primary_crops?.join(', ') || 'Paddy, Maize, Lentils'}
+                    {Array.isArray((selectedVillage as any).primary_crops)
+                      ? (selectedVillage as any).primary_crops.join(', ')
+                      : ((selectedVillage as any).primary_crops || 'Paddy, Maize, Lentils')}
                   </span>
                 </div>
               </div>

@@ -122,20 +122,30 @@ export default function HistoricalReplayPage() {
     return list.map((evalItem: any) => ({
       village_id: evalItem.village_id,
       village_name: evalItem.village_name,
-      latitude: evalItem.hazard.latitude,
-      longitude: evalItem.hazard.longitude,
-      hazard: evalItem.hazard,
-      exposure: evalItem.exposure,
-      impact: evalItem.impact,
+      latitude: evalItem.latitude ?? evalItem.hazard?.latitude ?? 26.15,
+      longitude: evalItem.longitude ?? evalItem.hazard?.longitude ?? 85.9,
+      hazard: evalItem.hazard ?? {
+        hazard_score: evalItem.hazard_score ?? 0,
+        hazard_level: evalItem.hazard_level ?? 'LOW',
+      },
+      exposure: evalItem.exposure ?? {
+        outstanding_amount: evalItem.portfolio_exposure_inr ?? 0,
+        borrowers_exposed: evalItem.borrower_count ?? 0,
+      },
+      impact: evalItem.impact ?? {
+        priority_score: evalItem.priority_score ?? 0,
+        priority_level: evalItem.priority_level ?? 'LOW',
+      },
     }));
   }, [districtReplay]);
 
   // Current snapshot evaluation for selected village
   const activeVillageSnapshot = useMemo(() => {
-    if (!villageReplayReport?.snapshots) return null;
+    if (!villageReplayReport?.snapshots || villageReplayReport.snapshots.length === 0) return null;
     return (
       villageReplayReport.snapshots.find((s) => s.snapshot_date === selectedDate) ||
-      villageReplayReport.snapshots[4]
+      villageReplayReport.snapshots.find((s) => s.snapshot_date <= selectedDate) ||
+      villageReplayReport.snapshots[0]
     );
   }, [villageReplayReport, selectedDate]);
 

@@ -118,6 +118,14 @@ export default function PortfolioPage() {
           <ProvenanceBadge mode="SYNTHETIC" size="lg" />
         </div>
 
+        {/* Loading state indicator */}
+        {isLoading && pipelineResults.length === 0 && (
+          <div className="p-12 text-center text-slate-400 border border-slate-800 rounded-xl bg-[#0c1220] flex flex-col items-center justify-center gap-3">
+            <span className="w-6 h-6 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-mono">Aggregating institutional portfolio exposure...</span>
+          </div>
+        )}
+
         {/* Aggregate KPI Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl border border-slate-800 bg-[#0f172a]">

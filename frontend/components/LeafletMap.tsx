@@ -94,6 +94,20 @@ export function LeafletMap({
     };
   }, [isClient]);
 
+  // Handle dynamic container resizing (e.g. Master-Detail panel open/close, responsive breakpoints)
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    const observer = new ResizeObserver(() => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.invalidateSize();
+      }
+    });
+    observer.observe(mapContainerRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [isClient]);
+
   // Render District GeoJSON Boundary
   useEffect(() => {
     if (!mapInstanceRef.current || !districtGeoJSON) return;

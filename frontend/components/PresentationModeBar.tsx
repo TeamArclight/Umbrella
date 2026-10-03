@@ -161,7 +161,7 @@ export function PresentationModeBar() {
       {isActive && (
         <aside
           aria-label="Presentation Mode Controls"
-          className="fixed top-0 left-64 right-0 z-50 bg-[#080d1a]/95 backdrop-blur-md border-b border-sky-500/40 px-6 py-2.5 flex items-center justify-between text-xs shadow-2xl shadow-black/80 animate-in fade-in duration-200"
+          className="fixed top-0 left-0 md:left-64 right-0 z-50 bg-[#080d1a]/95 backdrop-blur-md border-b border-sky-500/40 px-6 py-2.5 flex items-center justify-between text-xs shadow-2xl shadow-black/80 animate-in fade-in duration-200"
         >
           {/* Left: Step Info & Narrative Cue */}
           <div className="flex items-center gap-4 flex-1 mr-4 overflow-hidden">

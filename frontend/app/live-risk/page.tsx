@@ -23,15 +23,17 @@ export default function LiveRiskPage() {
   const [horizon, setHorizon] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pipelineResults, setPipelineResults] = useState<VillagePipelineResult[]>([]);
-  const [selectedVillageId, setSelectedVillageId] = useState<string>('IND-BIH-DAR-001');
+  const [selectedVillageId, setSelectedVillageId] = useState<string>('VIL-DAR-HAY');
 
   const loadData = async (h: number) => {
     try {
       setIsLoading(true);
       const results = await api.runAllVillages(h, 7);
       setPipelineResults(results);
-      if (!selectedVillageId && results.length > 0) {
-        setSelectedVillageId(results[0].village_id);
+      if (results.length > 0) {
+        setSelectedVillageId((prev) =>
+          prev && results.some((r) => r.village_id === prev) ? prev : results[0].village_id
+        );
       }
     } catch (err) {
       console.error('Failed to load live risk data:', err);
@@ -93,6 +95,14 @@ export default function LiveRiskPage() {
             />
           </div>
         </div>
+
+        {/* Loading skeleton */}
+        {isLoading && !selectedVillage && (
+          <div className="p-12 text-center text-slate-400 border border-slate-800 rounded-xl bg-[#0c1220] flex flex-col items-center justify-center gap-3">
+            <span className="w-6 h-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs font-mono">Ingesting Open-Meteo meteorological forecasts...</span>
+          </div>
+        )}
 
         {/* Selected Cluster Weather Deep-Dive & Daily Forecast Cards */}
         {selectedVillage && (

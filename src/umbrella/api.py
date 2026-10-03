@@ -358,12 +358,16 @@ def get_recommendations(
 def run_all_villages(
     horizon: int = Query(5, description="Forecast horizon in days (3, 5, or 7)"),
     month: int = Query(7, ge=1, le=12, description="Calendar month for climatology baseline comparison"),
+    district: Optional[str] = Query("Darbhanga", description="Filter by district; defaults to primary pilot"),
+    state: Optional[str] = Query("Bihar", description="Filter by state"),
 ):
-    """Execute complete decoupled pipeline across all monitored pilot villages."""
+    """Execute complete decoupled pipeline across monitored pilot clusters in the target district."""
     try:
         return pipeline.evaluate_all_monitored_villages(
             forecast_horizon_days=horizon,
             evaluation_month=month,
+            district=district,
+            state=state,
         )
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
